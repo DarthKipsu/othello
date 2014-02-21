@@ -2,22 +2,30 @@ $(document).ready(function() {
 	createGameboard();
 });
 
-function createGamegrid() {
-	var table = document.createElement('table');
-	table.id = 'gamegrid';
-	for (var i=1; i<9; i++) {
-		var tr = document.createElement('tr');
-		for (var j=1; j<9; j++) {
-			var td = document.createElement('td');
-			$(td).data('row', i);
-			$(td).data('column', j);
-			tr.appendChild(td);
-		};
-		table.appendChild(tr);
-	}
-	return table;
-};
-
 function createGameboard() {
 	$('#game-wrapper').append(createGamegrid());
 };
+
+function createGamegrid() {
+	var gamegrid = document.createElement('table'); // gamegrid table element
+	gamegrid.id = 'gamegrid';
+	addRowsToGamegrid(gamegrid);
+	return gamegrid;
+};
+
+function addRowsToGamegrid(gamegrid) {
+	for (var i=1; i<9; i++) {
+		var row = document.createElement('tr'); // row tr element
+		addColumnsToGamegridRows(row, i);
+		gamegrid.appendChild(row);
+	};
+};
+
+function addColumnsToGamegridRows(row, number) {
+	for (var i=1; i<9; i++) {
+		var column = document.createElement('td'); // column td element
+		$(column).data('row', number);
+		$(column).data('column', i);
+		row.appendChild(column);
+	};
+}
