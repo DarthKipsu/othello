@@ -27,12 +27,17 @@ describe("Gameboard creation", function() {
 			expect($(tds[i]).data('column')).toEqual((i + 1) - (Math.floor(i / 8)*8));
 		};
 	});
-	it("creates game slots for player and the opponent", function() {
+	it("creates chip slots for player and the opponent", function() {
 		createGameboard();
-		var playerSlot = $('#player-slot');
-		var opponentSlot = $('#opponent-slot');
+		var playerSlot = $('#player-chipslot');
+		var opponentSlot = $('#opponent-chipslot');
 		expect(playerSlot.length).toBe(1);
 		expect(opponentSlot.length).toBe(1);
+	});
+	it("divides 64 chips between both players", function() {
+		createGameboard();
+		expect($('#player-chipslot').children().length).toBe(32);
+		expect($('#opponent-chipslot').children().length).toBe(32);
 	});
 	it("calls the gamegrid creation on document ready", function() {
 		expect(createGameboard).not.toThrow();

@@ -14,21 +14,37 @@ td {
 	box-shadow:  0 0 15px #227839 inset;
 }
 
-#player-slot, #opponent-slot {
+#player-chipslot, #opponent-chipslot {
 	width: 100px;
-	height: 627px;
+	height: 612px;
 	border: 2px solid black;
 	border-radius: 5px;
 	position: absolute;
+	padding: 5px 0;
 	left: 50%;
 	background-color: #785814;
 	box-shadow:  -20px -8px 45px #4D380E inset;
 }
 
-#player-slot {
+#player-chipslot {
 	margin-left: -425px;
 }
 
-#opponent-slot{
+#opponent-chipslot{
 	margin-left: 325px;
+}
+
+.player-unused, .opponent-unused {
+	margin: 3px;
+	width: 94px;
+	height: 16px;
+	background-color: #E3D9C3;
+}
+
+.player-unused {
+	box-shadow: 0 9px #1C1C1C inset;
+}
+
+.opponent-unused {
+	box-shadow: 0 -9px #1C1C1C inset;
 }

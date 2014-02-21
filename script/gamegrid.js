@@ -3,7 +3,9 @@ $(document).ready(function() {
 });
 
 function createGameboard() {
-	$('#game-wrapper').append(createPlayerSlot(), createOpponentSlot(), createGamegrid());
+	$('#game-wrapper').append(createPlayerChipSlot(), createOpponentChipSlot(), createGamegrid());
+	$('#player-chipslot').append(createChips('player'));
+	$('#opponent-chipslot').append(createChips('opponent'));
 };
 
 function createGamegrid() {
@@ -30,14 +32,24 @@ function addColumnsToGamegridRows(row, number) {
 	};
 }
 
-function createPlayerSlot() {
-	var playerSlot = document.createElement('div');
-	playerSlot.id = "player-slot";
+function createPlayerChipSlot() {
+	var playerSlot = document.createElement('div'); // div for player chips
+	playerSlot.id = "player-chipslot";
 	return playerSlot;
 }
 
-function createOpponentSlot() {
-	var opponentSlot = document.createElement('div');
-	opponentSlot.id = "opponent-slot";
+function createOpponentChipSlot() {
+	var opponentSlot = document.createElement('div'); // div for opponent chips
+	opponentSlot.id = "opponent-chipslot";
 	return opponentSlot;
 }
+
+function createChips(player) {
+	var chipsArray = [];
+	for (var i=0; i<32; i++) {
+		var chip = document.createElement('div'); // game chips * 32
+		chip.classList.add(player + '-unused');
+		chipsArray.push(chip);
+	};
+	return chipsArray;
+};
