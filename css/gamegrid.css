@@ -1,0 +1,15 @@
+#gamegrid {
+	margin: auto;
+	padding: none;
+	width: 600px;
+	background-color: #2B9447;
+	border: 2px solid black;
+	border-collapse: collapse;
+}
+
+td {
+	width: 75px;
+	height: 75px;
+	border: 1px solid #134721;
+	box-shadow:  0 0 15px #227839 inset;
+}

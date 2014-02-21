@@ -10,4 +10,15 @@ h1 {
 #game-wrapper {
 	width: 900px;
 	margin: auto;
+	padding: 20px 0;
+	border: 1px solid black;
+	border-radius: 10px;
+	box-shadow: 2px 2px 8px black;
+	background:
+		radial-gradient(#735414 15%, transparent 16%) 0 0,
+		radial-gradient(#735414 15%, transparent 16%) 8px 8px,
+		radial-gradient(#755715 15%, transparent 20%) 0 1px,
+		radial-gradient(#755715 15%, transparent 20%) 8px 9px;
+	background-color: #785814;
+	background-size: 16px 16px;
 }
