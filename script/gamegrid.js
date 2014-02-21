@@ -1,3 +1,7 @@
+$(document).ready(function() {
+	createGameboard();
+});
+
 function createGamegrid() {
 	var table = document.createElement('table');
 	table.id = 'gamegrid';
@@ -12,4 +16,8 @@ function createGamegrid() {
 		table.appendChild(tr);
 	}
 	return table;
+};
+
+function createGameboard() {
+	$('#game-wrapper').append(createGamegrid());
 };

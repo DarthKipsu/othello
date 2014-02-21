@@ -1,5 +1,12 @@
 describe("Gameboard creation", function() {
-	var result = createGamegrid();
+	var gameWrapperDiv, result;
+	beforeEach(function() {
+		$('body').empty();
+		gameWrapperDiv = document.createElement('div');
+		gameWrapperDiv.id = 'game-wrapper';
+		document.body.appendChild(gameWrapperDiv);
+		result = createGamegrid();
+	});
 	it("creates a table with id gamegrid", function() {
 		expect(result).toEqual(jasmine.any(HTMLTableElement));
 		expect(result.id).toEqual('gamegrid');
@@ -19,5 +26,10 @@ describe("Gameboard creation", function() {
 			expect($(tds[i]).data('row')).toEqual(Math.ceil((i + 1) / 8));
 			expect($(tds[i]).data('column')).toEqual((i + 1) - (Math.floor(i / 8)*8));
 		};
+	});
+	it("calls the gamegrid creation on document ready", function() {
+		expect(createGameboard).not.toThrow();
+		var table = $('#game-wrapper').find('table');
+		expect(table.length).toBe(1);
 	});
 });
