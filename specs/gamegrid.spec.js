@@ -27,9 +27,16 @@ describe("Gameboard creation", function() {
 			expect($(tds[i]).data('column')).toEqual((i + 1) - (Math.floor(i / 8)*8));
 		};
 	});
+	it("creates game slots for player and the opponent", function() {
+		createGameboard();
+		var playerSlot = $('#player-slot');
+		var opponentSlot = $('#opponent-slot');
+		expect(playerSlot.length).toBe(1);
+		expect(opponentSlot.length).toBe(1);
+	});
 	it("calls the gamegrid creation on document ready", function() {
 		expect(createGameboard).not.toThrow();
-		var table = $('#game-wrapper').find('table');
-		expect(table.length).toBe(1);
+		var table = $('#game-wrapper table');
+		expect(table.length).toBe(1); 
 	});
 });

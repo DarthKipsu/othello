@@ -3,7 +3,7 @@ $(document).ready(function() {
 });
 
 function createGameboard() {
-	$('#game-wrapper').append(createGamegrid());
+	$('#game-wrapper').append(createPlayerSlot(), createOpponentSlot(), createGamegrid());
 };
 
 function createGamegrid() {
@@ -15,7 +15,7 @@ function createGamegrid() {
 
 function addRowsToGamegrid(gamegrid) {
 	for (var i=1; i<9; i++) {
-		var row = document.createElement('tr'); // row tr element
+		var row = document.createElement('tr'); // gamegrid row tr element
 		addColumnsToGamegridRows(row, i);
 		gamegrid.appendChild(row);
 	};
@@ -23,9 +23,21 @@ function addRowsToGamegrid(gamegrid) {
 
 function addColumnsToGamegridRows(row, number) {
 	for (var i=1; i<9; i++) {
-		var column = document.createElement('td'); // column td element
+		var column = document.createElement('td'); // gamegrid column td element
 		$(column).data('row', number);
 		$(column).data('column', i);
 		row.appendChild(column);
 	};
+}
+
+function createPlayerSlot() {
+	var playerSlot = document.createElement('div');
+	playerSlot.id = "player-slot";
+	return playerSlot;
+}
+
+function createOpponentSlot() {
+	var opponentSlot = document.createElement('div');
+	opponentSlot.id = "opponent-slot";
+	return opponentSlot;
 }

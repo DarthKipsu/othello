@@ -1,6 +1,6 @@
 #gamegrid {
 	margin: auto;
-	padding: none;
+	padding: 0;
 	width: 600px;
 	background-color: #2B9447;
 	border: 2px solid black;
@@ -12,4 +12,23 @@ td {
 	height: 75px;
 	border: 1px solid #134721;
 	box-shadow:  0 0 15px #227839 inset;
+}
+
+#player-slot, #opponent-slot {
+	width: 100px;
+	height: 627px;
+	border: 2px solid black;
+	border-radius: 5px;
+	position: absolute;
+	left: 50%;
+	background-color: #785814;
+	box-shadow:  -20px -8px 45px #4D380E inset;
+}
+
+#player-slot {
+	margin-left: -425px;
+}
+
+#opponent-slot{
+	margin-left: 325px;
 }
