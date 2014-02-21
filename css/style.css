@@ -1,0 +1,13 @@
+h1 {
+	text-align: center;
+	font-family: Tahoma, Geneva, sans-serif;
+	font-size: 28px;
+	text-transform: uppercase;
+	letter-spacing:  6px;
+	color: #7A776A;
+}
+
+#game-wrapper {
+	width: 900px;
+	margin: auto;
+}
