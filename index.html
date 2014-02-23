@@ -7,11 +7,25 @@
 		<link rel="stylesheet" type="text/css" href="css/score.css"></style>
 		<script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
 		<script type="text/javascript" src="script/gamegrid.js"></script>
-		<script type="text/javascript" src="script/score.js"></script>
+		<!--script type="text/javascript" src="script/score.js"></script!-->
 		<script type="text/javascript" src="script/script.js"></script>
 	</head>
 	<body>
 		<h1>Othello</h1>
 		<div id="game-wrapper"></div>
+		<div id="scoreboard">
+			<div id="player-scoreboard">
+				<p>Your score:</p>
+				<p><span id="player-score">2</span> 
+				<span id="player-potential-score"></span></p>
+			</div>
+			<div id="vs">
+				<p>VS</p>
+			</div>
+			<div id="opponent-scoreboard">
+				<p>Opponent score:</p>
+				<p><span id="opponent-score">2</span></p>
+			</div>
+		</div>
 	</body>
 </html>
