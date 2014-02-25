@@ -1,0 +1,160 @@
+body {
+    background: #004466;
+}
+
+.container {
+  width: 100px;
+  position: relative;
+  margin: 100px auto;
+  -webkit-perspective: 1000px;
+     -moz-perspective: 1000px;
+       -o-perspective: 1000px;
+          perspective: 1000px;
+}
+
+#chip {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  -webkit-transform-style: preserve-3d;
+     -moz-transform-style: preserve-3d;
+       -o-transform-style: preserve-3d;
+          transform-style: preserve-3d;
+}
+
+#chip.spinning {
+  -webkit-animation: spinChipWebkit 18s infinite;
+     -moz-animation: spinChipMoz    18s infinite;
+}
+
+@-webkit-keyframes spinChipWebkit {
+    0% { -webkit-transform: rotateX(   0deg ) rotateY(   0deg ); }
+  100% { -webkit-transform: rotateX( 360deg ) rotateY( 360deg ); }
+}
+
+@-moz-keyframes spinChipMoz {
+    0% { -moz-transform: rotateX(   0deg ) rotateY(   0deg ); }
+  100% { -moz-transform: rotateX( 360deg ) rotateY( 360deg ); }
+}
+
+#chip figure {
+  display: block;
+  position: absolute;
+  width: 27px;
+  height: 15px;
+  font-size: 10px;
+  color: red;
+  text-align: center;
+  background: white;
+  box-shadow: 0 -7px black inset;
+}
+
+#chip .top, #chip .bottom {
+  left: -36px;
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  box-shadow: none;
+}
+
+#chip .bottom {
+  top: -85px;
+  left: -36px;
+  background: black;
+}
+
+#chip.panels-backface-invisible figure {
+  -webkit-backface-visibility: hidden;
+     -moz-backface-visibility: hidden;
+       -o-backface-visibility: hidden;
+          backface-visibility: hidden;
+}
+
+#chip .one  {
+  -webkit-transform: translateZ( 50px );
+     -moz-transform: translateZ( 50px );
+       -o-transform: translateZ( 50px );
+          transform: translateZ( 50px );
+}
+#chip .two {
+  -webkit-transform: rotateY(   30deg ) translateZ( 50px );
+     -moz-transform: rotateY(   30deg ) translateZ( 50px );
+       -o-transform: rotateY(   30deg ) translateZ( 50px );
+          transform: rotateY(   30deg ) translateZ( 50px );
+}
+#chip .three {
+  -webkit-transform: rotateY(   60deg ) translateZ( 50px );
+     -moz-transform: rotateY(   60deg ) translateZ( 50px );
+       -o-transform: rotateY(   60deg ) translateZ( 50px );
+          transform: rotateY(   60deg ) translateZ( 50px );
+}
+#chip .four {
+  -webkit-transform: rotateY(   90deg ) translateZ( 50px );
+     -moz-transform: rotateY(   90deg ) translateZ( 50px );
+       -o-transform: rotateY(   90deg ) translateZ( 50px );
+          transform: rotateY(   90deg ) translateZ( 50px );
+}
+#chip .five {
+  -webkit-transform: rotateY( 120deg ) translateZ( 50px );
+     -moz-transform: rotateY( 120deg ) translateZ( 50px );
+       -o-transform: rotateY( 120deg ) translateZ( 50px );
+          transform: rotateY( 120deg ) translateZ( 50px );
+}
+#chip .six {
+  -webkit-transform: rotateY( 150deg ) translateZ( 50px );
+     -moz-transform: rotateY( 150deg ) translateZ( 50px );
+       -o-transform: rotateY( 150deg ) translateZ( 50px );
+          transform: rotateY( 150deg ) translateZ( 50px );
+}
+#chip .seven {
+  -webkit-transform: rotateY( -180deg ) translateZ( 50px );
+     -moz-transform: rotateY( -180deg ) translateZ( 50px );
+       -o-transform: rotateY( -180deg ) translateZ( 50px );
+          transform: rotateY( -180deg ) translateZ( 50px );
+}
+#chip .eight {
+  -webkit-transform: rotateY( -150deg ) translateZ( 50px );
+     -moz-transform: rotateY( -150deg ) translateZ( 50px );
+       -o-transform: rotateY( -150deg ) translateZ( 50px );
+          transform: rotateY( -150deg ) translateZ( 50px );
+}
+#chip .nine {
+  -webkit-transform: rotateY( -120deg ) translateZ( 50px );
+     -moz-transform: rotateY( -120deg ) translateZ( 50px );
+       -o-transform: rotateY( -120deg ) translateZ( 50px );
+          transform: rotateY( -120deg ) translateZ( 50px );
+}
+#chip .ten {
+  -webkit-transform: rotateY(  -90deg ) translateZ( 50px );
+     -moz-transform: rotateY(  -90deg ) translateZ( 50px );
+       -o-transform: rotateY(  -90deg ) translateZ( 50px );
+          transform: rotateY(  -90deg ) translateZ( 50px );
+}
+#chip .eleven  {
+  -webkit-transform: rotateY(   -60deg ) translateZ( 50px );
+     -moz-transform: rotateY(   -60deg ) translateZ( 50px );
+       -o-transform: rotateY(   -60deg ) translateZ( 50px );
+          transform: rotateY(   -60deg ) translateZ( 50px );
+}
+#chip .twelve  {
+  -webkit-transform: rotateY(   -30deg ) translateZ( 50px );
+     -moz-transform: rotateY(   -30deg ) translateZ( 50px );
+       -o-transform: rotateY(   -30deg ) translateZ( 50px );
+          transform: rotateY(   -30deg ) translateZ( 50px );
+}
+#chip .top {
+  -webkit-transform: rotateX(   90deg ) translateZ( 50px );
+     -moz-transform: rotateX(   90deg ) translateZ( 50px );
+       -o-transform: rotateX(   90deg ) translateZ( 50px );
+          transform: rotateX(   90deg ) translateZ( 50px );
+}
+#chip .bottom {
+  -webkit-transform: rotateX(  -90deg ) translateZ( 50px );
+     -moz-transform: rotateX(  -90deg ) translateZ( 50px );
+       -o-transform: rotateX(  -90deg ) translateZ( 50px );
+          transform: rotateX(  -90deg ) translateZ( 50px );
+}
+
+#chip {
+  position: absolute;
+}
