@@ -39,12 +39,5 @@ td {
 	width: 94px;
 	height: 16px;
 	background-color: #E3D9C3;
-}
-
-.player-unused {
-	box-shadow: 0 9px #1C1C1C inset;
-}
-
-.opponent-unused {
 	box-shadow: 0 -9px #1C1C1C inset;
 }
