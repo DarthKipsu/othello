@@ -3,7 +3,7 @@ $(document).ready(function() {
 });
 
 function createGameboard() {
-	$('#game-wrapper').append(createPlayerChipSlot(), createOpponentChipSlot(), createGamegrid());
+	$('#game-wrapper').append(createChipSlot('player'), createChipSlot('opponent'), createGamegrid());
 	$('#player-chipslot').append(createChips('player'));
 	$('#opponent-chipslot').append(createChips('opponent'));
 };
@@ -32,7 +32,13 @@ function addColumnsToGamegridRows(row, number) {
 	};
 }
 
-function createPlayerChipSlot() {
+function createChipSlot (player) {
+	var slot = document.createElement('div'); 
+	slot.id = player + "-chipslot";
+	return slot;
+}
+
+/*function createPlayerChipSlot() {
 	var playerSlot = document.createElement('div'); // div for player chips
 	playerSlot.id = "player-chipslot";
 	return playerSlot;
@@ -42,7 +48,7 @@ function createOpponentChipSlot() {
 	var opponentSlot = document.createElement('div'); // div for opponent chips
 	opponentSlot.id = "opponent-chipslot";
 	return opponentSlot;
-}
+}*/
 
 function createChips(player) {
 	var chipsArray = [];
