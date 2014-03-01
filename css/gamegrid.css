@@ -15,12 +15,12 @@ td {
 }
 
 #player-chipslot, #opponent-chipslot {
-	width: 100px;
-	height: 612px;
+	width: 70px;
+	height: 605px;
 	border: 2px solid black;
 	border-radius: 5px;
 	position: absolute;
-	padding: 5px 0;
+	padding: 10px 0 10px 30px;
 	left: 50%;
 	background-color: #785814;
 	box-shadow:  -20px -8px 45px #4D380E inset;
@@ -32,12 +32,4 @@ td {
 
 #opponent-chipslot{
 	margin-left: 325px;
-}
-
-.player-unused, .opponent-unused {
-	margin: 3px;
-	width: 94px;
-	height: 16px;
-	background-color: #E3D9C3;
-	box-shadow: 0 -9px #1C1C1C inset;
 }
