@@ -1,60 +1,70 @@
 $(document).ready(function() {
-	placeAChip()
+
+	var firstChipPosition = $('#gamegrid tr:nth-child(4) td:nth-child(4)')
+	var secondChipPosition = $('#gamegrid tr:nth-child(4) td:nth-child(5)')
+	var thirdChipPosition = $('#gamegrid tr:nth-child(5) td:nth-child(4)')
+	var fourthChipPosition = $('#gamegrid tr:nth-child(5) td:nth-child(5)')
+
+	placeAChip(firstChipPosition, 'black')
 })
 
-function placeAChip() {
+function placeAChip(targetCell, player) {
 
-	var chipCount = document.getElementById('chip')
-	
-	if (chipCount < 4) {
-		var playerChipslot = document.getElementById('player-chipslot') //target chipslot
-		var childCount = playerChipslot.childElementCount //chip count for chipslot
-		var lastChild = playerChipslot.childNodes[childCount - 1] //the last of the chips in the lot
-		$(lastChild).css('animation', 'movechip 2s 1 forwards')
-		$(lastChild).attr('class', 'chip black')
+	var lastChild = getLastChipFromSlot(player)
+	var movement = getCoordinates(lastChild, targetCell)
 
-		var chipCurrentPosition = $(lastChild).offset()
-		var targetCell = $('#gamegrid tr:nth-child(4) td:nth-child(4)')
-		var targetCellPosition = $(targetCell).offset()
-		var topMovement = targetCellPosition.top - chipCurrentPosition.top + 30
-		var leftMovement = targetCellPosition.left - chipCurrentPosition.left + 15
-		console.log(chipCurrentPosition.top, chipCurrentPosition.left)
-		console.log(targetCellPosition.top, targetCellPosition.left)
-	
-		var style = document.createElement('style')
-		style.appendChild(document.createTextNode(''))
-		document.head.appendChild(style)
-		var moveCss = style.sheet
+	changeLastChildAttributes(lastChild)
 
-		try {
-			moveCss.insertRule("@-webkit-keyframes movechip { from { -webkit-transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {-webkit-transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-			topMovement + "px; left: " +
-			leftMovement + "px;} 90% {-webkit-transform: rotateX(70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-			topMovement + "px; left: " +
-			leftMovement + "px;} 95% {-webkit-transform: rotateX(110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-			topMovement + "px; left: " +
-			leftMovement + "px;} to { -webkit-transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-			topMovement + "px; left: " +
-			leftMovement + "px;} }",0) 
-		} catch (e) {}
-		try {
-			moveCss.insertRule("@keyframes movechip { from {transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-			(topMovement) + "px; left: " +
-			(leftMovement) + "px;} 90% {transform: rotateX(70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-			(topMovement) + "px; left: " +
-			(leftMovement) + "px;} 95% {transform: rotateX(110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-			(topMovement) + "px; left: " +
-			(leftMovement) + "px;} to {transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-			(topMovement) + "px; left: " +
-			(leftMovement) + "px;} }",0) 
-		} catch (e) {}
-		console.log(moveCss)
-
-		removeChipFromSlot(lastChild, playerChipslot)
-		$(targetCell).append('<span class="black">X</span>')
-	}
+	moveChipToGameboard(createTemporaryStyleForMove(), movement.top, movement.left)
 }
 
-function removeChipFromSlot(lastChild, chipslot) {
-	setTimeout(function(){chipslot.removeChild(lastChild)}, 2000)
+function getLastChipFromSlot(player) {
+	var unusedChips = document.querySelectorAll('.' + player + '-unused')
+	return unusedChips[unusedChips.length - 1]
+}
+
+function getCoordinates(lastChild, targetCell) {
+	var chipCurrentPosition = $(lastChild).offset()
+	var targetCellPosition = $(targetCell).offset()
+	var topMovement = targetCellPosition.top - chipCurrentPosition.top + 31
+	var leftMovement = targetCellPosition.left - chipCurrentPosition.left + 14
+	return {top:topMovement, left:leftMovement}
+}
+
+function changeLastChildAttributes(lastChild) {
+	$(lastChild).css('animation', 'movechip 2s 1 forwards')
+	$(lastChild).attr('class', 'chip black')
+}
+
+function createTemporaryStyleForMove() {
+	var style = document.createElement('style')
+	style.appendChild(document.createTextNode(''))
+	document.head.appendChild(style)
+	return style.sheet
+}
+
+
+function moveChipToGameboard(moveCss, topMovement, leftMovement) {
+	try {
+		moveCss.insertRule("@-webkit-keyframes movechip { from { -webkit-transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {-webkit-transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} 90% {-webkit-transform: rotateX(70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} 95% {-webkit-transform: rotateX(110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} to { -webkit-transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} }",0) 
+	} catch (e) {}
+	try {
+		moveCss.insertRule("@keyframes movechip { from {transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} 90% {transform: rotateX(70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} 95% {transform: rotateX(110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} to {transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} }",0) 
+	} catch (e) {}
 }

@@ -35,16 +35,16 @@ describe("Gameboard creation", function() {
 
 	it("creates chip slots for player and the opponent", function() {
 		createGameboard();
-		var playerSlot = $('#player-chipslot');
-		var opponentSlot = $('#opponent-chipslot');
+		var playerSlot = $('#black-chipslot');
+		var opponentSlot = $('#white-chipslot');
 		expect(playerSlot.length).toBe(1);
 		expect(opponentSlot.length).toBe(1);
 	});
 
 	it("divides 64 chips between both players", function() {
 		createGameboard();
-		expect($('#player-chipslot').children().length).toBe(32);
-		expect($('#opponent-chipslot').children().length).toBe(32);
+		expect($('#black-chipslot').children().length).toBe(32);
+		expect($('#white-chipslot').children().length).toBe(32);
 	});
 
 	it("calls the gamegrid creation on document ready", function() {

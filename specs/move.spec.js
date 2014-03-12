@@ -4,7 +4,7 @@ describe("turns are working", function() {
 	})
 })
 
-/*describe("move animation", function() {
+describe("move animation", function() {
 	
 	var gameWrapperDiv
 
@@ -14,17 +14,4 @@ describe("turns are working", function() {
 		gameWrapperDiv.id = 'game-wrapper'
 		document.body.appendChild(gameWrapperDiv)
 	})
-
-	it("removes one user chip from the chipslot", function() {
-		createGameboard()
-		placeAChip()
-		expect($('#player-chipslot').children().length).toBe(31)
-	})
-
-	it("adds one user chip to the gameboard", function() {
-		createGameboard()
-		placeAChip()
-		blackChipsOnGameboard = $('.black')
-		expect(blackChipsOnGameboard.length).toBe(1)
-	})
-})*/
+})

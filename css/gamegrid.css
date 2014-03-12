@@ -14,7 +14,7 @@ td {
 	box-shadow:  0 0 15px #227839 inset;
 }
 
-#player-chipslot, #opponent-chipslot {
+#black-chipslot, #white-chipslot {
 	width: 70px;
 	height: 605px;
 	border: 2px solid black;
@@ -26,10 +26,10 @@ td {
 	box-shadow:  -20px -8px 45px #4D380E inset;
 }
 
-#player-chipslot {
+#black-chipslot {
 	margin-left: -425px;
 }
 
-#opponent-chipslot{
+#white-chipslot{
 	margin-left: 325px;
 }
