@@ -26,8 +26,8 @@ function getLastChipFromSlot(player) {
 function getCoordinates(lastChild, targetCell) {
 	var chipCurrentPosition = $(lastChild).offset()
 	var targetCellPosition = $(targetCell).offset()
-	var topMovement = targetCellPosition.top - chipCurrentPosition.top + 31
-	var leftMovement = targetCellPosition.left - chipCurrentPosition.left + 14
+	var topMovement = targetCellPosition.top - chipCurrentPosition.top + 33
+	var leftMovement = targetCellPosition.left - chipCurrentPosition.left + 24
 	return {top:topMovement, left:leftMovement}
 }
 
