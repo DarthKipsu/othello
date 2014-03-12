@@ -4,7 +4,7 @@ describe("turns are working", function() {
 	})
 })
 
-describe("move animation", function() {
+/*describe("move animation", function() {
 	
 	var gameWrapperDiv
 
@@ -27,4 +27,4 @@ describe("move animation", function() {
 		blackChipsOnGameboard = $('.black')
 		expect(blackChipsOnGameboard.length).toBe(1)
 	})
-})
+})*/
