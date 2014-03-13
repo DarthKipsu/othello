@@ -20,7 +20,7 @@ function placeAChip(targetCell, player) {
 	var movementRandomName = 'move' + randomNumberForMovementName.getTime()
 	var movement = getCoordinates(lastChild, targetCell)
 
-	changeLastChildAttributes(lastChild, movementRandomName)
+	changeLastChildAttributes(lastChild, movementRandomName, player)
 
 	if (player == 'white') moveWhiteChipToGameboard(createTemporaryStyleForMove(), movement.top, movement.left, movementRandomName)
 	else moveBlackChipToGameboard(createTemporaryStyleForMove(), movement.top, movement.left, movementRandomName)
@@ -44,10 +44,11 @@ function getCoordinates(lastChild, targetCell) {
 	return {top:topMovement, left:leftMovement}
 }
 
-function changeLastChildAttributes(lastChild, movementRandomName) {
+function changeLastChildAttributes(lastChild, movementRandomName, player) {
 	$(lastChild).css('animation', movementRandomName + ' 2s 1 forwards')
 	$(lastChild).css('z-index', '0')
-	$(lastChild).attr('class', 'chip black')
+	if (player == "black") $(lastChild).attr('class', 'chip black')
+	else $(lastChild).attr('class', 'chip white')
 }
 
 function createTemporaryStyleForMove() {
@@ -97,15 +98,17 @@ function moveWhiteChipToGameboard(moveCss, topMovement, leftMovement, movementRa
 		leftMovement+ "px;} }",0) 
 	} catch (e) {}
 	try {
-		moveCss.insertRule("@keyframes  " + movementRandomName + " { from { transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {transform: rotateX(-90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		moveCss.insertRule("@keyframes  " + movementRandomName + " { from { transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {transform: rotateX(-89deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
 		topMovement+ "px; left: " +
 		leftMovement+ "px;} 90% {transform: rotateX(-70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
 		topMovement+ "px; left: " +
 		leftMovement+ "px;} 95% {transform: rotateX(-110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
 		topMovement+ "px; left: " +
-		leftMovement+ "px;} to { transform: rotateX(-90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		leftMovement+ "px;} to { transform: rotateX(-89deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
 		(topMovement-3) + "px; left: " +
 		leftMovement+ "px;} }",0)
+		$('.white .bottom').css('background', 'linear-gradient(to bottom, #D9D9D9 0%, #FFF 100%) repeat scroll 0% 0% #FFF')
+		console.log($('.white .bottom'))
 		console.log(leftMovement, topMovement)
 	} catch (e) {}
 }
