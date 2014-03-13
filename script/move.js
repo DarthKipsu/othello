@@ -71,15 +71,15 @@ function moveBlackChipToGameboard(moveCss, topMovement, leftMovement, movementRa
 		leftMovement+ "px;} }",0) 
 	} catch (e) {}
 	try {
-		moveCss.insertRule("@keyframes  " + movementRandomName + " { from {transform: rotateX(8deg) scale(0.8, 0.8) translate(0px, 0px);} 85% {transform: rotateX(90deg) scale(0.7) scaleZ(0.7) translate("
-		+ leftMovement + "px, " + topMovement + 
-		"px);} 90% {transform: rotateX(70deg) scale(0.7) scaleZ(0.7) translate("
-		+ leftMovement + "px, " + topMovement + 
-		"px);} 95% {transform: rotateX(110deg) scale(0.7) scaleZ(0.7) translate("
-		+ leftMovement + "px, " + topMovement + 
-		"px);} to {transform: rotateX(90deg) scale(0.7) scaleZ(0.7) translate("
-		+ leftMovement + "px, " + topMovement + 
-		"px);} }",0)
+		moveCss.insertRule("@keyframes  " + movementRandomName + " { from { transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} 90% {transform: rotateX(70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} 95% {transform: rotateX(110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} to { transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} }",0)
 		console.log(leftMovement, topMovement)
 	} catch (e) {}
 }
@@ -97,15 +97,15 @@ function moveWhiteChipToGameboard(moveCss, topMovement, leftMovement, movementRa
 		leftMovement+ "px;} }",0) 
 	} catch (e) {}
 	try {
-		moveCss.insertRule("@keyframes  " + movementRandomName + " { from {transform: rotateX(8deg) scale(0.8, 0.8) translate(0px, 0px);} 85% {transform: rotateX(-90deg) scale(0.7) scaleZ(0.7) translate("
-		+ leftMovement + "px, " + topMovement + 
-		"px);} 90% {transform: rotateX(-70deg) scale(0.7) scaleZ(0.7) translate("
-		+ leftMovement + "px, " + topMovement + 
-		"px);} 95% {transform: rotateX(-110deg) scale(0.7) scaleZ(0.7) translate("
-		+ leftMovement + "px, " + topMovement + 
-		"px);} to {transform: rotateX(270deg) scale(0.7) scaleZ(0.7) translate("
-		+ leftMovement + "px, " + topMovement + 
-		"px);} }",0)
+		moveCss.insertRule("@keyframes  " + movementRandomName + " { from { transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {transform: rotateX(-90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} 90% {transform: rotateX(-70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} 95% {transform: rotateX(-110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} to { transform: rotateX(-90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		(topMovement-3) + "px; left: " +
+		leftMovement+ "px;} }",0)
 		console.log(leftMovement, topMovement)
 	} catch (e) {}
 }
