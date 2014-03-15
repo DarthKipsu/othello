@@ -1,0 +1,22 @@
+{
+  "name": "othello",
+  "version": "0.0.0",
+  "description": "Game of reversi",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/DarthKipsu/othello.git"
+  },
+  "dependencies": {
+    "express": "3.x"
+  },
+  "keywords": [
+    "othello",
+    "game",
+    "reversi"
+  ],
+  "homepage": "https://github.com/DarthKipsu/othello"
+}
