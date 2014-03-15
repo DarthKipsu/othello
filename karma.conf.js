@@ -15,14 +15,14 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'http://code.jquery.com/jquery-1.10.1.min.js',
-      'script/*.js',
+      'web/script/*.js',
       'specs/*.spec.js'
     ],
 
 
     // list of files to exclude
     exclude: [
-     'script/document-ready.js'
+     'web/script/document-ready.js'
     ],
 
 
