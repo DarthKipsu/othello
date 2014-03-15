@@ -3,15 +3,3 @@ describe("turns are working", function() {
 		expect(turn).toEqual("black")
 	})
 })
-
-describe("move animation", function() {
-	
-	var gameWrapperDiv
-
-	beforeEach(function() {
-		$('body').empty()
-		gameWrapperDiv = document.createElement('div')
-		gameWrapperDiv.id = 'game-wrapper'
-		document.body.appendChild(gameWrapperDiv)
-	})
-})

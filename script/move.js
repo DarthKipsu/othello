@@ -1,4 +1,4 @@
-$(document).ready(function() {
+function first4Chips() {
 
 	var firstChipPosition = $('#gamegrid tr:nth-child(4) td:nth-child(4)')
 	var secondChipPosition = $('#gamegrid tr:nth-child(4) td:nth-child(5)')
@@ -9,7 +9,7 @@ $(document).ready(function() {
 	setTimeout(function() {placeAChip(secondChipPosition, 'white')}, 1000)
 	setTimeout(function() {placeAChip(thirdChipPosition, 'black')}, 2000)
 	setTimeout(function() {placeAChip(fourthChipPosition, 'white')}, 3000)
-})
+}
 
 function placeAChip(targetCell, player) {
 
@@ -24,6 +24,8 @@ function placeAChip(targetCell, player) {
 
 	if (player == 'white') moveWhiteChipToGameboard(createTemporaryStyleForMove(), movement.top, movement.left, movementRandomName)
 	else moveBlackChipToGameboard(createTemporaryStyleForMove(), movement.top, movement.left, movementRandomName)
+	
+	updateAllScores()
 }
 
 function getLastChipFromSlot(player) {
@@ -81,7 +83,6 @@ function moveBlackChipToGameboard(moveCss, topMovement, leftMovement, movementRa
 		leftMovement+ "px;} to { transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
 		topMovement+ "px; left: " +
 		leftMovement+ "px;} }",0)
-		console.log(leftMovement, topMovement)
 	} catch (e) {}
 }
 
@@ -108,7 +109,5 @@ function moveWhiteChipToGameboard(moveCss, topMovement, leftMovement, movementRa
 		(topMovement-3) + "px; left: " +
 		leftMovement+ "px;} }",0)
 		$('.white .bottom').css('background', 'linear-gradient(to bottom, #D9D9D9 0%, #FFF 100%) repeat scroll 0% 0% #FFF')
-		console.log($('.white .bottom'))
-		console.log(leftMovement, topMovement)
 	} catch (e) {}
 }
