@@ -1,1 +1,1 @@
-$(document).ready(first4Chips)
+$(document).ready(createGame)
