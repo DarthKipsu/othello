@@ -7,7 +7,8 @@ function newRoom(socket) {
 	shaSum.update(time.getTime().toString())
 	shaSum.update(ip.address.toString())
 	var hash = shaSum.digest('hex')
-	console.log(hash)
+	socket.join(hash)
+	socket.emit('room', hash)
 }
 
 exports.newRoom = newRoom

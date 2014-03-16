@@ -16,14 +16,9 @@ function popupDiv() {
 	
 	var input = document.createElement('input')
 	$(input).attr("type", "text")
+	$(input).attr("onclick", "select()")
 	input.id = "opponent-address"
 	popupDiv.appendChild(input)
-	
-	var button = document.createElement('input')
-	$(button).attr("type", "submit")
-	$(button).attr("value", "Copy the link to your clipboard")
-	button.id = "clipboard-copy"
-	popupDiv.appendChild(button)
 
 	var waiting = document.createElement('p')
 	waiting.id = "waiting"

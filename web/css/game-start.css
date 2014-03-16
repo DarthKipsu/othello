@@ -28,11 +28,7 @@ h2 {
 #opponent-address {
 	margin-top: 50px;
 	width: 650px;
-}
-
-#clipboard-copy {
-	margin: 10px 175px;
-	width: 300px;
+	text-align: center;
 }
 
 #waiting {
