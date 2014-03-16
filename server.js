@@ -1,6 +1,11 @@
-var express = require('express')
+var express = require('express'),
+    app = express(),
+    server = require('http').createServer(app),
+    io = require('socket.io').listen(server)
 
-var app = express()
+var rooms = require('./server/rooms.js')
+
+server.listen(3000)
 
 app.get('/', function(request, response){
 	response.sendfile(__dirname + '/web/index.html')
@@ -8,6 +13,6 @@ app.get('/', function(request, response){
 
 app.use(express.static(__dirname + '/web'))
 
-var server = app.listen(3000, function() {
-	console.log('Listening on port %d', server.address().port)
+io.sockets.on('connection', function(socket) {
+	rooms.newRoom(socket)
 })
