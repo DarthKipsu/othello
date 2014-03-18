@@ -2,7 +2,6 @@ var crypto = require('crypto')
 
 function newRoom(socket) {
 	var hash = createHash(socket)
-	socket.emit('room', hash)
 	return hash
 }
 

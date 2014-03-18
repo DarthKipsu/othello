@@ -15,6 +15,7 @@ app.use(express.static(__dirname + '/web'))
 
 io.sockets.on('connection', function(socket) {
 	var newRoom = rooms.newRoom(socket)
+	socket.emit('room', newRoom)
 	socket.on('joinRoom', function(hash, oldRoom) {
 		socket.leave(oldRoom)
 		socket.join(hash)
