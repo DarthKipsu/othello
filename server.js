@@ -14,9 +14,10 @@ app.get('/', function(request, response){
 app.use(express.static(__dirname + '/web'))
 
 io.sockets.on('connection', function(socket) {
-	rooms.newRoom(socket)
-	socket.on('joinRoom', function(data) {
-		socket.join(data.room)
-		io.sockets.in(data.room).emit('start game')
+	var newRoom = rooms.newRoom(socket)
+	socket.on('joinRoom', function(hash, oldRoom) {
+		socket.leave(oldRoom)
+		socket.join(hash)
+		if (io.sockets.clients(hash).length == 2) io.sockets.in(hash).emit('start game')
 	})
 })
