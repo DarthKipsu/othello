@@ -15,5 +15,8 @@ app.use(express.static(__dirname + '/web'))
 
 io.sockets.on('connection', function(socket) {
 	rooms.newRoom(socket)
-	socket.on('joinRoom', function(data) {socket.join(data.room)})
+	socket.on('joinRoom', function(data) {
+		socket.join(data.room)
+		io.sockets.in(data.room).emit('start game')
+	})
 })

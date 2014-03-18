@@ -13,4 +13,10 @@ $(document).ready(function() {
 			console.log(hash)
 		}
 	})
+
+	socket.on("start game", function() {
+		console.log('start game')
+		$('#game-start').hide()
+		first4Chips()
+	})
 })
