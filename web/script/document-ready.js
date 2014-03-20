@@ -7,12 +7,11 @@ $(document).ready(function() {
 			createGame()
 			window.location.hash = data
 			$('#opponent-address').val(window.location.href)
-		} else {
 		}
 		var hash = window.location.hash.substring(1)
 		socket.emit('joinRoom', hash, data)	
 		console.log('JOINED ROOM: ' + hash)
-})
+	})
 
 	socket.on("start game", function() {
 		console.log('start game')
