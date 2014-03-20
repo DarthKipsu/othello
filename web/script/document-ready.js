@@ -13,8 +13,8 @@ $(document).ready(function() {
 		console.log('JOINED ROOM: ' + hash)
 	})
 
-	socket.on("start game", function() {
-		console.log('start game')
+	socket.on("start game", function(player) {
+		console.log('start game, ', player)
 		$('#game-start').hide()
 		first4Chips()
 	})

@@ -1,6 +1,6 @@
 var crypto = require('crypto')
 
-var rooms = []
+var rooms = {}
 
 function newRoom(socket) {
 	var hash = createHash(socket)
@@ -22,10 +22,32 @@ function joinRoom(io, socket) {
 	return function (hash, oldRoom) {
 		socket.leave(oldRoom)
 		socket.join(hash)
+		if (io.sockets.clients(hash).length == 1) {
+			rooms[hash] = [
+				{ clientId: socket.id,
+				  player: 'black' }
+			]
+		}
 		console.log('JOINED ROOM: ' + hash)
-		if (io.sockets.clients(hash).length == 2) io.sockets.in(hash).emit('start game')
+		if (io.sockets.clients(hash).length == 2) {
+			rooms[hash].push({
+				clientId: socket.id,
+				player: 'white'
+			})
+			//io.sockets.in(hash).emit('start game')
+			startGame(io, hash)
+			console.log('CLIENT ID: ', rooms)
+		}
 		console.log('CLIENTS IN ROOM ' + hash + ': ' + io.sockets.clients(hash).length)
 	}
 }
 
 exports.joinRoom = joinRoom
+
+function startGame(io, hash) {
+	for (var i=0; i<2; i++) {
+		var clientId = rooms[hash][i].clientId
+		var player = rooms[hash][i].player
+		io.sockets.socket(clientId).emit('start game', player)
+	}
+}
