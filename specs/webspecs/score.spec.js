@@ -3,6 +3,7 @@ describe("chage score according to how many chips on board", function() {
 	beforeEach(function(done) {
 		scoreSpans()
 		createGameboard()
+		callForChips('black')
 		first4Chips()
 		setTimeout(done,3500)
 	})

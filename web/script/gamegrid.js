@@ -3,11 +3,15 @@ $(document).ready(function() {
 });
 
 function createGameboard() {
-	$('#game-wrapper').append(createChipSlot('black'), createChipSlot('white'), createGamegrid());
-	$('#black-chipslot').append(createChips('black'));
-	$('#white-chipslot').append(createChips('white'));
-	$('.chip').append(createChip3DLayers());
+	$('#game-wrapper').append(createChipSlot('player'), createChipSlot('opponent'), createGamegrid());
 };
+
+function callForChips(playerColor) {
+	$('#player-chipslot').append(createChips(playerColor, 'player'));
+	if (playerColor == 'black') $('#opponent-chipslot').append(createChips('white', 'opponent'));
+	else $('#opponent-chipslot').append(createChips('black', 'opponent'));
+	$('.chip').append(createChip3DLayers());
+}
 
 function createGamegrid() {
 	var gamegrid = document.createElement('table'); // gamegrid table element
@@ -39,12 +43,12 @@ function createChipSlot (player) {
 	return slot;
 }
 
-function createChips(player) {
+function createChips(playerColor, player) {
 	var chipsArray = [];
 	for (var i=0; i<32; i++) {
 		var chip = document.createElement('div'); // game chips * 32
-		chip.classList.add(player + '-unused', 'chip');
-		if (player == "white") {
+		chip.classList.add(playerColor + '-unused', 'chip');
+		if (player == "opponent") {
 			chip.style.zIndex = (50 - i);
 		}
 		chipsArray.push(chip);

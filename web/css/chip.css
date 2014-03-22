@@ -9,14 +9,28 @@
   	  perspective: 1000px;
 }
 
-.black-unused {
+#player-chipslot .black-unused {
   -webkit-transform: rotateX(8deg)
 		     scale(0.8, 0.8);
   	  transform: rotateX(8deg)
 		     scale(0.8, 0.8);
 }
 
-.white-unused {
+#player-chipslot .white-unused {
+  -webkit-transform: rotateX(187deg)
+		     scale(0.8, 0.8);
+  	  transform: rotateX(8deg)
+		     scale(0.8, 0.8);
+}
+
+#opponent-chipslot .black-unused {
+  -webkit-transform: rotateX(-186deg)
+  		     scale(0.8, 0.8);
+  	  transform: rotateX(6deg)
+		     scale(0.8, 0.8);
+}
+
+#opponent-chipslot .white-unused {
   -webkit-transform: rotateX(-8deg)
   		     scale(0.8, 0.8);
   	  transform: rotateX(6deg)

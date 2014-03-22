@@ -1,28 +1,31 @@
-function first4Chips() {
+function first4Chips(player) {
 
 	var firstChipPosition = $('#gamegrid tr:nth-child(4) td:nth-child(4)')
 	var secondChipPosition = $('#gamegrid tr:nth-child(4) td:nth-child(5)')
 	var thirdChipPosition = $('#gamegrid tr:nth-child(5) td:nth-child(5)')
 	var fourthChipPosition = $('#gamegrid tr:nth-child(5) td:nth-child(4)')
 
-	placeAChip(firstChipPosition, 'black')
-	setTimeout(function() {placeAChip(secondChipPosition, 'white')}, 1000)
-	setTimeout(function() {placeAChip(thirdChipPosition, 'black')}, 2000)
-	setTimeout(function() {placeAChip(fourthChipPosition, 'white')}, 3000)
+	placeAChip(firstChipPosition, 'black', player)
+	setTimeout(function() {placeAChip(secondChipPosition, 'white', player)}, 1000)
+	setTimeout(function() {placeAChip(thirdChipPosition, 'black', player)}, 2000)
+	setTimeout(function() {placeAChip(fourthChipPosition, 'white', player)}, 3000)
 }
 
-function placeAChip(targetCell, player) {
+function placeAChip(targetCell, chipColor, player) {
 
-	var lastChild = getLastChipFromSlot(player)
-	if (player == "white") var lastChild = getFirstChipFromSlot(player)
+	var lastChild = getLastChipFromSlot(chipColor)
+	if ((player == 'black' && chipColor == "white") || 
+	   (player == 'white' && chipColor == 'black')) {
+		var lastChild = getFirstChipFromSlot(chipColor)
+	}
 	
 	var randomNumberForMovementName = new Date
 	var movementRandomName = 'move' + randomNumberForMovementName.getTime()
 	var movement = getCoordinates(lastChild, targetCell)
 
-	changeLastChildAttributes(lastChild, movementRandomName, player)
+	changeLastChildAttributes(lastChild, movementRandomName, chipColor)
 
-	if (player == 'white') moveWhiteChipToGameboard(createTemporaryStyleForMove(), movement.top, movement.left, movementRandomName)
+	if (chipColor == 'white') moveWhiteChipToGameboard(createTemporaryStyleForMove(), movement.top, movement.left, movementRandomName)
 	else moveBlackChipToGameboard(createTemporaryStyleForMove(), movement.top, movement.left, movementRandomName)
 	
 	updateAllScores()

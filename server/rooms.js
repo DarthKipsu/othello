@@ -47,7 +47,7 @@ exports.joinRoom = joinRoom
 function startGame(io, hash) {
 	for (var i=0; i<2; i++) {
 		var clientId = rooms[hash][i].clientId
-		var player = rooms[hash][i].player
-		io.sockets.socket(clientId).emit('start game', player)
+		var playerColor = rooms[hash][i].player
+		io.sockets.socket(clientId).emit('start game', playerColor)
 	}
 }

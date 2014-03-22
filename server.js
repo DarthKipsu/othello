@@ -17,6 +17,5 @@ io.sockets.on('connection', function(socket) {
 
 	var newRoom = rooms.newRoom(socket)
 	socket.emit('room', newRoom)
-
 	socket.on('joinRoom', rooms.joinRoom(io, socket))
 })
