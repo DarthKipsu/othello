@@ -28,7 +28,7 @@ function placeAChip(targetCell, chipColor, player) {
 	if (chipColor == 'white') moveWhiteChipToGameboard(createTemporaryStyleForMove(), movement.top, movement.left, movementRandomName)
 	else moveBlackChipToGameboard(createTemporaryStyleForMove(), movement.top, movement.left, movementRandomName)
 	
-	updateAllScores()
+	updateAllScores(player)
 }
 
 function getLastChipFromSlot(player) {
