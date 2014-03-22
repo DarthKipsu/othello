@@ -23,26 +23,24 @@ function joinRoom(io, socket) {
 		socket.leave(oldRoom)
 		socket.join(hash)
 		if (io.sockets.clients(hash).length == 1) {
-			rooms[hash] = [
-				{ clientId: socket.id,
-				  player: 'black' }
-			]
+			rooms[hash] = []
+			addPlayerObjectToRoom(socket, hash, 'black')
 		}
-		console.log('JOINED ROOM: ' + hash)
 		if (io.sockets.clients(hash).length == 2) {
-			rooms[hash].push({
-				clientId: socket.id,
-				player: 'white'
-			})
-			//io.sockets.in(hash).emit('start game')
+			addPlayerObjectToRoom(socket, hash, 'white')
 			startGame(io, hash)
-			console.log('CLIENT ID: ', rooms)
 		}
-		console.log('CLIENTS IN ROOM ' + hash + ': ' + io.sockets.clients(hash).length)
 	}
 }
 
 exports.joinRoom = joinRoom
+
+function addPlayerObjectToRoom(socket, hash, playerColor) {
+	rooms[hash].push({
+		clientId: socket.id,
+		player: playerColor
+	})
+}
 
 function startGame(io, hash) {
 	for (var i=0; i<2; i++) {
