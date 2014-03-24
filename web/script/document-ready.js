@@ -18,5 +18,6 @@ $(document).ready(function() {
 		$('#game-start').hide()
 		callForChips(playerColor)
 		first4Chips(playerColor)
+		setTimeout(function() {beginTurns(playerColor)}, 4000)
 	})
 })
