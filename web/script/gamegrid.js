@@ -8,9 +8,17 @@ function createGameboard() {
 
 function callForChips(playerColor) {
 	$('#player-chipslot').append(createChips(playerColor, 'player'));
-	if (playerColor == 'black') $('#opponent-chipslot').append(createChips('white', 'opponent'));
-	else $('#opponent-chipslot').append(createChips('black', 'opponent'));
+
+	if (playerColor == 'black') addPlayerResources('black', 'white')
+	else addPlayerResources('white', 'black')
+
 	$('.chip').append(createChip3DLayers());
+}
+
+function addPlayerResources(player, opponent) {
+		$('#opponent-chipslot').append(createChips(opponent, 'opponent'));
+		$('#player-color').append('(' + player + ' chips)')
+		$('#opponent-color').append('(' + opponent + ' chips)')
 }
 
 function createGamegrid() {
