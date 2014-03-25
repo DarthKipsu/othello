@@ -4,6 +4,7 @@ var express = require('express'),
     io = require('socket.io').listen(server)
 
 var rooms = require('./server/rooms.js')
+var moves = require('./server/moves.js')
 
 server.listen(3000)
 
