@@ -17,7 +17,10 @@ function validPlacements(player) {
 		for (var col=0; col<8; col++) {
 			var cell = gamegrid[row][col]
 			if (cell==opponent) {
-				opponentChips.push([row, col])
+				var emptyCells = emptyCellsAdjacentToOpponent(row, col)
+				if (emptyCells!='empty') {
+					opponentChips.push([row, col])
+				}
 			}
 		}
 	}
@@ -36,5 +39,17 @@ function validPlacements(player) {
 	console.log(opponentChips)
 	console.log(validTargets)
 }
+
+function emptyCellsAdjacentToOpponent(row, col) {
+	var emptyCells = 'none'
+	if ((gamegrid[row - 1][col]==undefined) ||
+	    (gamegrid[row + 1][col]==undefined) ||
+	    (gamegrid[row][col - 1]==undefined) ||
+	    (gamegrid[row][col + 1]==undefined)) {
+		    emptyCells = gamegrid[row][col]
+	}
+	return emptyCells
+}
+
 
 exports.validPlacements = validPlacements
