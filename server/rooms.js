@@ -1,4 +1,5 @@
 var crypto = require('crypto')
+var moves = require('./moves.js')
 
 var rooms = {}
 
@@ -46,6 +47,7 @@ function startGame(io, hash) {
 	for (var i=0; i<2; i++) {
 		var clientId = rooms[hash][i].clientId
 		var playerColor = rooms[hash][i].player
-		io.sockets.socket(clientId).emit('start game', playerColor)
+		io.sockets.socket(clientId).emit('start game', playerColor,
+				moves.validPlacements('black'))
 	}
 }

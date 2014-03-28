@@ -114,3 +114,11 @@ function moveWhiteChipToGameboard(moveCss, topMovement, leftMovement, movementRa
 		$('.white .bottom').css('background', 'linear-gradient(to bottom, #D9D9D9 0%, #FFF 100%) repeat scroll 0% 0% #FFF')
 	} catch (e) {}
 }
+
+function highlightValidMoves(validPlacements) {
+	for (var i=0; i<validPlacements.length; i++) {
+		var row = validPlacements[i][0] + 1
+		var col = validPlacements[i][1] + 1
+		$('#gamegrid tr:nth-child(' + row + ') td:nth-child(' + col + ')').addClass('valid')
+	}
+}

@@ -13,14 +13,17 @@ $(document).ready(function() {
 		console.log('JOINED ROOM: ' + hash)
 	})
 
-	socket.on("start game", function(playerColor) {
+	socket.on("start game", function(playerColor, validPlacements) {
 		console.log('start game, ', playerColor)
 		$('#game-start').hide()
 		callForChips(playerColor)
 		first4Chips(playerColor)
 		setTimeout(function() {
 			beginTurns(playerColor)
+			console.log(validPlacements)
+			highlightValidMoves(validPlacements)
 		}, 4000)
+
 	})
 
 
