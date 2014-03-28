@@ -8,48 +8,69 @@ gamegrid[3][3] = 'black'
 gamegrid[3][4] = 'white'
 gamegrid[4][3] = 'white'
 gamegrid[4][4] = 'black'
+//gamegrid[5][3] = 'white'
 
 function validPlacements(player) {
 	var opponent = player=='black'?'white':'black'
 
-	var opponentChips = []
+	var potentialTargets = []
 	for (var row=0; row<8; row++) {
 		for (var col=0; col<8; col++) {
 			var cell = gamegrid[row][col]
+
 			if (cell==opponent) {
 				var emptyCells = emptyCellsAdjacentToOpponent(row, col)
-				if (emptyCells!='empty') {
-					opponentChips.push([row, col])
+				for (var i=0; i<emptyCells.length; i++) {
+					potentialTargets.push(emptyCells[i])
 				}
 			}
 		}
 	}
 
 	var validTargets = []
-	for (var i=0; i<opponentChips.length; i++) {
-		var row = opponentChips[i][0]
-		var col = opponentChips[i][1]-1
-		if (gamegrid[row][col]==undefined) {
-			validTargets.push([row, col])
-		}
+	for (var i=0; i<potentialTargets.length; i++) {
+		var valid = findPlayerStraights(potentialTargets[i][0], potentialTargets[i][1], player)
+		if (valid) validTargets.push(valid)
 	}
 
 	console.log(gamegrid)
 	console.log(opponent)
-	console.log(opponentChips)
+	console.log(potentialTargets)
 	console.log(validTargets)
+
+	return validTargets
 }
 
 function emptyCellsAdjacentToOpponent(row, col) {
-	var emptyCells = 'none'
-	if ((gamegrid[row - 1][col]==undefined) ||
-	    (gamegrid[row + 1][col]==undefined) ||
-	    (gamegrid[row][col - 1]==undefined) ||
-	    (gamegrid[row][col + 1]==undefined)) {
-		    emptyCells = gamegrid[row][col]
-	}
-	return emptyCells
+	var potentialTargets = []
+	if (gamegrid[row - 1][col]==undefined) potentialTargets.push([(row - 1), col])
+	if (gamegrid[row + 1][col]==undefined) potentialTargets.push([(row +  1), col])
+        if (gamegrid[row][col - 1]==undefined) potentialTargets.push([row, (col - 1)])
+	if (gamegrid[row][col + 1]==undefined) potentialTargets.push([row, (col + 1)])
+	return potentialTargets
 }
 
+function findPlayerStraights(row, col, player) {
+	for (var i=1; i<8; i++) {
+		if (gamegrid[row][col - i]==undefined) break
+		else if (gamegrid[row][col - 1]==player) break
+		else if (gamegrid[row][col - i]==player) return [row, col]
+	}
+	for (var i=1; i<8; i++) {
+		if (gamegrid[row][col + i]==undefined) break
+		else if (gamegrid[row][col + 1]==player) break
+		else if (gamegrid[row][col + i]==player) return [row, col]
+	}
+	for (var i=1; i<8; i++) {
+		if (gamegrid[row - i][col]==undefined) break
+		else if (gamegrid[row - 1][col]==player) break
+		else if (gamegrid[row - i][col]==player) return [row, col]
+	}
+	for (var i=1; i<8; i++) {
+		if (gamegrid[row + i][col]==undefined) break
+		else if (gamegrid[row + 1][col]==player) break
+		else if (gamegrid[row + i][col]==player) return [row, col]
+	}
+}
 
 exports.validPlacements = validPlacements
