@@ -44,10 +44,11 @@ function addPlayerObjectToRoom(socket, hash, playerColor) {
 }
 
 function startGame(io, hash) {
+	rooms[hash].gamegrid = new moves.Gamegrid()
 	for (var i=0; i<2; i++) {
 		var clientId = rooms[hash][i].clientId
 		var playerColor = rooms[hash][i].player
 		io.sockets.socket(clientId).emit('start game', playerColor,
-				moves.validPlacements('black'))
+			rooms[hash].gamegrid.validPlacements('black'))
 	}
 }

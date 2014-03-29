@@ -21,7 +21,7 @@ $(document).ready(function() {
 		setTimeout(function() {
 			beginTurns(playerColor)
 			console.log(validPlacements)
-			highlightValidMoves(validPlacements)
+			if (playerColor=='black') highlightValidMoves(validPlacements)
 		}, 4000)
 
 	})
