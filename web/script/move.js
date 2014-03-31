@@ -1,3 +1,7 @@
+/**
+ * Adds the 4 starting chips on the gamegrid.
+ * @param {string} player - The color of the player seeing this.
+ */
 function first4Chips(player) {
 
 	var firstChipPosition = $('#gamegrid tr:nth-child(4) td:nth-child(4)')
@@ -11,6 +15,12 @@ function first4Chips(player) {
 	setTimeout(function() {placeAChip(fourthChipPosition, 'white', player)}, 3000)
 }
 
+/**
+ * Adds a chip to it's designated gamegrid cell.
+ * @param {td element} targetCell - One of the cells on the gamegrid.
+ * @param {string} chipColor - color of the chip being placed.
+ * @param {string} player - The color of the player seeing this.
+ */
 function placeAChip(targetCell, chipColor, player) {
 
 	var lastChild = getLastChipFromSlot(chipColor)
@@ -28,19 +38,35 @@ function placeAChip(targetCell, chipColor, player) {
 	if (chipColor == 'white') moveWhiteChipToGameboard(createTemporaryStyleForMove(), movement.top, movement.left, movementRandomName)
 	else moveBlackChipToGameboard(createTemporaryStyleForMove(), movement.top, movement.left, movementRandomName)
 	
-	updateAllScores(player)
+	updateAllScores(player) //score.js
 }
 
+/**
+ * Retrieve the last child of chipslot.
+ * @param {string} player - Either 'white' or 'black'
+ * @returns {div element} The last chip on chipslot.
+ */
 function getLastChipFromSlot(player) {
 	var unusedChips = document.querySelectorAll('.' + player + '-unused')
 	return unusedChips[unusedChips.length - 1]
 }
 
+/**
+ * etrieve te first child on chipslot.
+ * @param {string} - Either 'white' or 'black'.
+ * @returns {div element} The first chip on chipslot.
+ */
 function getFirstChipFromSlot(player) {
 	var unusedChips = document.querySelector('.' + player + '-unused')
 	return unusedChips
 }
 
+/**
+ * Calculate movement coordinates for moving chip to the gamegrid.
+ * @param {div element} lastChild - The first or the last chip on chipslot.
+ * @param {td element} targetCell - The td above which the chip will be moved.
+ * @returns {object} top: vertical movement, left: horizonal movement.
+ */
 function getCoordinates(lastChild, targetCell) {
 	var chipCurrentPosition = $(lastChild).offset()
 	var targetCellPosition = $(targetCell).offset()
@@ -49,6 +75,12 @@ function getCoordinates(lastChild, targetCell) {
 	return {top:topMovement, left:leftMovement}
 }
 
+/**
+ * Changes the chip attributes so that it moves to the gamegrid.
+ * @param {div element} lastChild - The first or the last chip on chipslot.
+ * @param {number} movementRandomName - A random number for CSS animation individual naming.
+ * @param {string} player - The color of the chip being placed.
+ */
 function changeLastChildAttributes(lastChild, movementRandomName, player) {
 	$(lastChild).css('animation', movementRandomName + ' 2s 1 forwards')
 	$(lastChild).css('z-index', '0')
@@ -56,6 +88,10 @@ function changeLastChildAttributes(lastChild, movementRandomName, player) {
 	else $(lastChild).attr('class', 'chip white')
 }
 
+/**
+ * Create new stylesheet to add the CSS animation into.
+ * @returns {stylesheet} Style sheet.
+ */
 function createTemporaryStyleForMove() {
 	var style = document.createElement('style')
 	style.appendChild(document.createTextNode(''))
@@ -63,7 +99,13 @@ function createTemporaryStyleForMove() {
 	return style.sheet
 }
 
-
+/**
+ * Add CSS to move the black chip.
+ * @param {stylesheet} moveCss - Stylesheet created temporarily for the animation.
+ * @param {number} topMovement - Vertical movement for the chip.
+ * @param {number} leftMovement - Horizonal movement for the chip.
+ * @param {number} movementRandomName - A random number to identify the CSS aniamtion from.
+ */
 function moveBlackChipToGameboard(moveCss, topMovement, leftMovement, movementRandomName) {
 	try {
 		moveCss.insertRule("@-webkit-keyframes " + movementRandomName + " { from { -webkit-transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {-webkit-transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
@@ -115,6 +157,10 @@ function moveWhiteChipToGameboard(moveCss, topMovement, leftMovement, movementRa
 	} catch (e) {}
 }
 
+/**
+ * Add valid class to gamegrid td's where player can move their chip into.
+ * @param {array} validPlacements - Array containning identification to valid movement cells.
+ */
 function highlightValidMoves(validPlacements) {
 	for (var i=0; i<validPlacements.length; i++) {
 		var row = validPlacements[i][0] + 1

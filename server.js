@@ -17,6 +17,6 @@ app.use(express.static(__dirname + '/web'))
 io.sockets.on('connection', function(socket) {
 
 	var newRoom = rooms.newRoom(socket)
-	socket.emit('room', newRoom)
-	socket.on('joinRoom', rooms.joinRoom(io, socket))
+	socket.emit('room', newRoom) //rooms.js
+	socket.on('joinRoom', rooms.joinRoom(io, socket)) //rooms.js
 })
