@@ -15,7 +15,33 @@ function Gamegrid() {
 Gamegrid.prototype.validPlacements = function(player) {
 	var opponent = player=='black'?'white':'black'
 
-	var potentialTargets = []
+	var potentialPlacements = this.findPotentialPlacements(opponent)
+	
+	var validPlacements = []
+	for (var i=0; i<potentialPlacements.length; i++) {
+		var valid = this.findPlayerStraights(potentialPlacements[i][0], potentialPlacements[i][1], player)
+		if (valid) validPlacements.push(valid)
+	}
+
+	console.log(this.gamegrid)
+	console.log(opponent)
+	console.log(potentialPlacements)
+	console.log(validPlacements)
+
+	return validPlacements
+}
+
+Gamegrid.prototype.emptyCellsAdjacentToOpponent = function(row, col) {
+	var potentialPlacements = []
+	if (this.gamegrid[row - 1][col]==undefined) potentialPlacements.push([(row - 1), col])
+	if (this.gamegrid[row + 1][col]==undefined) potentialPlacements.push([(row +  1), col])
+        if (this.gamegrid[row][col - 1]==undefined) potentialPlacements.push([row, (col - 1)])
+	if (this.gamegrid[row][col + 1]==undefined) potentialPlacements.push([row, (col + 1)])
+	return potentialPlacements
+}
+
+Gamegrid.prototype.findPotentialPlacements = function(opponent) {
+	var potentialPlacements = []
 	for (var row=0; row<8; row++) {
 		for (var col=0; col<8; col++) {
 			var cell = this.gamegrid[row][col]
@@ -23,33 +49,12 @@ Gamegrid.prototype.validPlacements = function(player) {
 			if (cell==opponent) {
 				var emptyCells = this.emptyCellsAdjacentToOpponent(row, col)
 				for (var i=0; i<emptyCells.length; i++) {
-					potentialTargets.push(emptyCells[i])
+					potentialPlacements.push(emptyCells[i])
 				}
 			}
 		}
 	}
-
-	var validTargets = []
-	for (var i=0; i<potentialTargets.length; i++) {
-		var valid = this.findPlayerStraights(potentialTargets[i][0], potentialTargets[i][1], player)
-		if (valid) validTargets.push(valid)
-	}
-
-	console.log(this.gamegrid)
-	console.log(opponent)
-	console.log(potentialTargets)
-	console.log(validTargets)
-
-	return validTargets
-}
-
-Gamegrid.prototype.emptyCellsAdjacentToOpponent = function(row, col) {
-	var potentialTargets = []
-	if (this.gamegrid[row - 1][col]==undefined) potentialTargets.push([(row - 1), col])
-	if (this.gamegrid[row + 1][col]==undefined) potentialTargets.push([(row +  1), col])
-        if (this.gamegrid[row][col - 1]==undefined) potentialTargets.push([row, (col - 1)])
-	if (this.gamegrid[row][col + 1]==undefined) potentialTargets.push([row, (col + 1)])
-	return potentialTargets
+	return potentialPlacements
 }
 
 Gamegrid.prototype.findPlayerStraights = function(row, col, player) {
