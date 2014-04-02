@@ -23,12 +23,6 @@ $(document).ready(function() {
 			beginTurns(playerColor) //script.js
 			console.log(validPlacements)
 			if (playerColor=='black') highlightValidMoves(validPlacements) //move.js
-		$('.valid').mouseenter(function() {
-			$(this).append('<div class="black-highlight"></div>')
-		})
-		$('.valid').mouseleave(function() {
-			$(this).empty()
-		})
 		}, 4000)
 	})
 })

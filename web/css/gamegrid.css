@@ -25,6 +25,13 @@ td {
 	width: 75;
 	height: 75px;
 	border-radius: 36px;
+	opacity: 0.4;
+}
+
+.flipPath {
+	position: absolute;
+	z-index: 99;
+	background: red;
 }
 
 #player-chipslot, #opponent-chipslot {
@@ -46,3 +53,13 @@ td {
 #opponent-chipslot{
 	margin-left: 325px;
 }
+
+/*#canvas {
+	position: absolute;
+
+	background: red;
+	opacity: 0.3;
+	top: 92px;
+	left: 50%;
+	margin-left: -300px;
+}*/

@@ -23,6 +23,10 @@ function first4Chips(player) {
  */
 function placeAChip(targetCell, chipColor, player) {
 
+	/** 
+	 * @function getLastChipFromSlot
+	 * @function getFirstChipFromSlot
+	 */
 	var lastChild = getLastChipFromSlot(chipColor)
 	if ((player == 'black' && chipColor == "white") || 
 	   (player == 'white' && chipColor == 'black')) {
@@ -31,6 +35,7 @@ function placeAChip(targetCell, chipColor, player) {
 	
 	var randomNumberForMovementName = new Date
 	var movementRandomName = 'move' + randomNumberForMovementName.getTime()
+	/** @function getCoordinates */
 	var movement = getCoordinates(lastChild, targetCell)
 
 	changeLastChildAttributes(lastChild, movementRandomName, chipColor)
@@ -72,7 +77,8 @@ function getCoordinates(lastChild, targetCell) {
 	var targetCellPosition = $(targetCell).offset()
 	var topMovement = targetCellPosition.top - chipCurrentPosition.top + 33
 	var leftMovement = targetCellPosition.left - chipCurrentPosition.left + 24
-	return {top:topMovement, left:leftMovement}
+	return {top:topMovement, left:leftMovement,
+		startTop:chipCurrentPosition.top, startLeft:chipCurrentPosition.left}
 }
 
 /**
@@ -165,6 +171,47 @@ function highlightValidMoves(validPlacements) {
 	for (var i=0; i<validPlacements.length; i++) {
 		var row = validPlacements[i][0] + 1
 		var col = validPlacements[i][1] + 1
-		$('#gamegrid tr:nth-child(' + row + ') td:nth-child(' + col + ')').addClass('valid')
+		$('#gamegrid tr:nth-child('+ row +') td:nth-child('+ col +')').addClass('valid v'+i)
 	}
+	$('.valid').mouseenter(function() {
+		$(this).append('<div class="black-highlight"></div>')
+		var thisValidClass = this.classList[1]
+		var thisID = parseInt(thisValidClass.substring(1,2))
+		var flipPath = document.createElement('div')
+		flipPath.classList.add('flipPath')
+		var flipPathBeginning = $('#gamegrid tr:nth-child('+(validPlacements[thisID][0]+1) +
+			') td:nth-child('+ (validPlacements[thisID][1]+1) +')')
+		var flipPathEnd = $('#gamegrid tr:nth-child('+ (validPlacements[thisID][2][0]+1) +
+			') td:nth-child('+ (validPlacements[thisID][2][1]+1) +')')
+		var movement = getCoordinates(flipPathBeginning, flipPathEnd)
+		if ((movement.top < 0) || (movement.left < 0)) {
+			movement = getCoordinates(flipPathEnd, flipPathBeginning)
+		}
+		flipPath.style.left = (movement.startLeft+40) + 'px'
+		flipPath.style.top = (movement.startTop+40) + 'px'
+		if (movement.top < movement.left) {
+			flipPath.style.width = Math.abs(movement.left-15) + 'px'
+		} else flipPath.style.width = '1px'
+		if (movement.top > movement.left) {
+			flipPath.style.height = Math.abs(movement.top-25) + 'px'
+		} else flipPath.style.height = '1px'
+		document.body.appendChild(flipPath)
+		console.log(movement)
+	})
+	$('.valid').mouseleave(function() {
+		$(this).empty()
+		$('.flipPath').remove()
+	})
 }
+
+/*function drawFlipPaths(start, end) {
+	var canvas = document.getElementById('canvas')
+	if (canvas.getContext) {
+		var ctx = canvas.getContext('ad')
+
+		ctx.strokeStyle = 'red'
+		ctx.moveTo(start.left, start.top)
+		ctx.lineTo(end.left, end.top)
+		ctx.stroke();
+	}
+}*/

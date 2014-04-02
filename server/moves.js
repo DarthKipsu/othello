@@ -91,22 +91,22 @@ Gamegrid.prototype.findPlayerStraights = function(row, col, player) {
 	for (var i=1; i<8; i++) {
 		if (this.gamegrid[row][col - i]==undefined) break
 		else if (this.gamegrid[row][col - 1]==player) break
-		else if (this.gamegrid[row][col - i]==player) return [row, col]
+		else if (this.gamegrid[row][col - i]==player) return [row, col, [row, col-i]]
 	}
 	for (var i=1; i<8; i++) {
 		if (this.gamegrid[row][col + i]==undefined) break
 		else if (this.gamegrid[row][col + 1]==player) break
-		else if (this.gamegrid[row][col + i]==player) return [row, col]
+		else if (this.gamegrid[row][col + i]==player) return [row, col, [row, col+i]]
 	}
 	for (var i=1; i<8; i++) {
 		if (this.gamegrid[row - i][col]==undefined) break
 		else if (this.gamegrid[row - 1][col]==player) break
-		else if (this.gamegrid[row - i][col]==player) return [row, col]
+		else if (this.gamegrid[row - i][col]==player) return [row, col, [row-i, col]]
 	}
 	for (var i=1; i<8; i++) {
 		if (this.gamegrid[row + i][col]==undefined) break
 		else if (this.gamegrid[row + 1][col]==player) break
-		else if (this.gamegrid[row + i][col]==player) return [row, col]
+		else if (this.gamegrid[row + i][col]==player) return [row, col, [row+i, col]]
 	}
 }
 
