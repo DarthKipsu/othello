@@ -18,6 +18,15 @@ td {
 	background-color: #43B561;
 }
 
+.black-highlight {
+	background: black;
+	background-image: -webkit-linear-gradient(bottom, #000000 0%, #363636 100%);
+	background-image: linear-gradient(to bottom, #000000 0%, #363636 100%);
+	width: 75;
+	height: 75px;
+	border-radius: 36px;
+}
+
 #player-chipslot, #opponent-chipslot {
 	width: 70px;
 	height: 605px;
