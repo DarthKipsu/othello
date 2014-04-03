@@ -175,14 +175,16 @@ function highlightValidMoves(validPlacements) {
 	}
 	$('.valid').mouseenter(function() {
 		$(this).append('<div class="black-highlight"></div>')
-		var thisValidClass = this.classList[1]
-		var thisID = parseInt(thisValidClass.substring(1,2))
-		var flipPath = document.createElement('div')
-		flipPath.classList.add('flipPath')
+
+		var thisID = getCellPosition(this)
 		var flipPathBeginning = $('#gamegrid tr:nth-child('+(validPlacements[thisID][0]+1) +
 			') td:nth-child('+ (validPlacements[thisID][1]+1) +')')
 		var flipPathEnd = $('#gamegrid tr:nth-child('+ (validPlacements[thisID][2][0]+1) +
 			') td:nth-child('+ (validPlacements[thisID][2][1]+1) +')')
+
+		var flipPath = document.createElement('div')
+		flipPath.classList.add('flipPath')
+
 		var movement = getCoordinates(flipPathBeginning, flipPathEnd)
 		if ((movement.top < 0) || (movement.left < 0)) {
 			movement = getCoordinates(flipPathEnd, flipPathBeginning)
@@ -195,6 +197,7 @@ function highlightValidMoves(validPlacements) {
 		if (movement.top > movement.left) {
 			flipPath.style.height = Math.abs(movement.top-25) + 'px'
 		} else flipPath.style.height = '1px'
+
 		document.body.appendChild(flipPath)
 		console.log(movement)
 	})
@@ -202,6 +205,11 @@ function highlightValidMoves(validPlacements) {
 		$(this).empty()
 		$('.flipPath').remove()
 	})
+}
+
+function getCellPosition(cell) {
+		var thisValidClass = cell.classList[1]
+		return parseInt(thisValidClass.substring(1,2))
 }
 
 /*function drawFlipPaths(start, end) {

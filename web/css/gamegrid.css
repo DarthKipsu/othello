@@ -30,7 +30,6 @@ td {
 
 .flipPath {
 	position: absolute;
-	z-index: 99;
 	background: red;
 }
 

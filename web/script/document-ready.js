@@ -23,6 +23,13 @@ $(document).ready(function() {
 			beginTurns(playerColor) //script.js
 			console.log(validPlacements)
 			if (playerColor=='black') highlightValidMoves(validPlacements) //move.js
+
+			$('.valid, .black-highlight').click(function() {
+				//socket.emit('turn end', playerColor, this)
+				var thisID = getCellPosition(this) //move.js
+				var thisCoordinates = validPlacements[thisID]
+				console.log('turn end', playerColor, thisCoordinates)
+			})
 		}, 4000)
 	})
 })
