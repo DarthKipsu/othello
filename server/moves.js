@@ -17,6 +17,13 @@ function Gamegrid() {
 
 Gamegrid.prototype.makeMove = function(player, coordinates) {
 	console.log(this.gamegrid)
+	this.addNewChip(player, coordinates)
+}
+
+Gamegrid.prototype.addNewChip = function(player, coordinates) {
+	var checkValidity = this.findPlayerStraights(coordinates[0], coordinates[1], player)
+	if (checkValidity) this.gamegrid[coordinates[0]][coordinates[1]] = player
+	console.log(this.gamegrid)
 }
 
 /**
@@ -37,11 +44,6 @@ Gamegrid.prototype.validPlacements = function(player) {
 		var valid = this.findPlayerStraights(potentialPlacements[i][0], potentialPlacements[i][1], player)
 		if (valid) validPlacements.push(valid)
 	}
-
-	console.log(this.gamegrid)
-	console.log(opponent)
-	console.log(potentialPlacements)
-	console.log(validPlacements)
 
 	return validPlacements
 }
@@ -91,25 +93,19 @@ Gamegrid.prototype.emptyCellsAdjacentToOpponent = function(row, col) {
  * @param {string} player - Color of the player whose turn it is.
  */
 Gamegrid.prototype.findPlayerStraights = function(row, col, player) {
+	var straights = []
+	straights.push(this.findAStraight(row, col, player, 0, 1))
+	straights.push(this.findAStraight(row, col, player, 0, -1))
+	straights.push(this.findAStraight(row, col, player, 1, 0))
+	straights.push(this.findAStraight(row, col, player, -1, 0))
+	return straights.filter(function(element){return element != undefined})[0]
+}
+
+Gamegrid.prototype.findAStraight = function(row, col, player, rowOffset, colOffset) {
 	for (var i=1; i<8; i++) {
-		if (this.gamegrid[row][col - i]==undefined) break
-		else if (this.gamegrid[row][col - 1]==player) break
-		else if (this.gamegrid[row][col - i]==player) return [row, col, [row, col-i]]
-	}
-	for (var i=1; i<8; i++) {
-		if (this.gamegrid[row][col + i]==undefined) break
-		else if (this.gamegrid[row][col + 1]==player) break
-		else if (this.gamegrid[row][col + i]==player) return [row, col, [row, col+i]]
-	}
-	for (var i=1; i<8; i++) {
-		if (this.gamegrid[row - i][col]==undefined) break
-		else if (this.gamegrid[row - 1][col]==player) break
-		else if (this.gamegrid[row - i][col]==player) return [row, col, [row-i, col]]
-	}
-	for (var i=1; i<8; i++) {
-		if (this.gamegrid[row + i][col]==undefined) break
-		else if (this.gamegrid[row + 1][col]==player) break
-		else if (this.gamegrid[row + i][col]==player) return [row, col, [row+i, col]]
+		if (this.gamegrid[row + rowOffset*i][col + colOffset*i]==undefined) break
+		else if (this.gamegrid[row + rowOffset][col + colOffset]==player) break
+		else if (this.gamegrid[row + rowOffset*i][col + colOffset*i]==player) return [row, col, [row + rowOffset*i, col + colOffset*i]]
 	}
 }
 
