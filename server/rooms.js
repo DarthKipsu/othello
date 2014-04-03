@@ -79,3 +79,11 @@ function startGame(io, hash) {
 			rooms[hash].gamegrid.validPlacements('black'), hash) //moves.js
 	}
 }
+
+function endTurn(io, socket) {
+	return function(player, coordinates, hash) {
+		rooms[hash].gamegrid.makeMove(player, coordinates)
+	}
+}
+
+exports.endTurn = endTurn

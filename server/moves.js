@@ -15,10 +15,8 @@ function Gamegrid() {
 	this.gamegrid[4][4] = 'black'
 }
 
-function addTurn(io, socket) {
-	return function(player, coordinates) {
-		console.log(player, coordinates)
-	}
+Gamegrid.prototype.makeMove = function(player, coordinates) {
+	console.log(this.gamegrid)
 }
 
 /**
@@ -116,4 +114,3 @@ Gamegrid.prototype.findPlayerStraights = function(row, col, player) {
 }
 
 exports.Gamegrid = Gamegrid
-exports.addTurn = addTurn
