@@ -76,6 +76,6 @@ function startGame(io, hash) {
 		var clientId = rooms[hash][i].clientId
 		var playerColor = rooms[hash][i].player
 		io.sockets.socket(clientId).emit('start game', playerColor,
-			rooms[hash].gamegrid.validPlacements('black')) //moves.js
+			rooms[hash].gamegrid.validPlacements('black'), hash) //moves.js
 	}
 }

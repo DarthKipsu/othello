@@ -14,7 +14,7 @@ $(document).ready(function() {
 		console.log('JOINED ROOM: ' + hash)
 	})
 
-	socket.on("start game", function(playerColor, validPlacements) {
+	socket.on("start game", function(playerColor, validPlacements, hash) {
 		console.log('start game, ', playerColor)
 		$('#game-start').hide()
 		callForChips(playerColor) //gamegrid.js
@@ -22,12 +22,12 @@ $(document).ready(function() {
 		setTimeout(function() {
 			beginTurns(playerColor) //script.js
 			console.log(validPlacements)
-			if (playerColor=='black') highlightValidMoves(validPlacements) //move.js
+			if (playerColor=='black') showTurnFunctions(validPlacements) //move.js
 
 			$('.valid, .black-highlight').click(function() {
-				//socket.emit('turn end', playerColor, this)
 				var thisID = getCellPosition(this) //move.js
 				var thisCoordinates = validPlacements[thisID]
+				socket.emit('turn end', playerColor, thisCoordinates, hash)
 				console.log('turn end', playerColor, thisCoordinates)
 			})
 		}, 4000)

@@ -167,39 +167,11 @@ function moveWhiteChipToGameboard(moveCss, topMovement, leftMovement, movementRa
  * Add valid class to gamegrid td's where player can move their chip into.
  * @param {array} validPlacements - Array containning identification to valid movement cells.
  */
-function highlightValidMoves(validPlacements) {
-	for (var i=0; i<validPlacements.length; i++) {
-		var row = validPlacements[i][0] + 1
-		var col = validPlacements[i][1] + 1
-		$('#gamegrid tr:nth-child('+ row +') td:nth-child('+ col +')').addClass('valid v'+i)
-	}
+function showTurnFunctions(validPlacements) {
+	highlightValidMoves(validPlacements)
 	$('.valid').mouseenter(function() {
 		$(this).append('<div class="black-highlight"></div>')
-
-		var thisID = getCellPosition(this)
-		var flipPathBeginning = $('#gamegrid tr:nth-child('+(validPlacements[thisID][0]+1) +
-			') td:nth-child('+ (validPlacements[thisID][1]+1) +')')
-		var flipPathEnd = $('#gamegrid tr:nth-child('+ (validPlacements[thisID][2][0]+1) +
-			') td:nth-child('+ (validPlacements[thisID][2][1]+1) +')')
-
-		var flipPath = document.createElement('div')
-		flipPath.classList.add('flipPath')
-
-		var movement = getCoordinates(flipPathBeginning, flipPathEnd)
-		if ((movement.top < 0) || (movement.left < 0)) {
-			movement = getCoordinates(flipPathEnd, flipPathBeginning)
-		}
-		flipPath.style.left = (movement.startLeft+40) + 'px'
-		flipPath.style.top = (movement.startTop+40) + 'px'
-		if (movement.top < movement.left) {
-			flipPath.style.width = Math.abs(movement.left-15) + 'px'
-		} else flipPath.style.width = '1px'
-		if (movement.top > movement.left) {
-			flipPath.style.height = Math.abs(movement.top-25) + 'px'
-		} else flipPath.style.height = '1px'
-
-		document.body.appendChild(flipPath)
-		console.log(movement)
+		showFlipPath(validPlacements, this)
 	})
 	$('.valid').mouseleave(function() {
 		$(this).empty()
@@ -207,19 +179,60 @@ function highlightValidMoves(validPlacements) {
 	})
 }
 
+function showFlipPath(validPlacements, cell) {
+	var movement = flipPathMovement(validPlacements, cell)
+
+	var flipPath = document.createElement('div')
+	flipPath.classList.add('flipPath')
+
+	flipPath.style.left = (movement.startLeft+40) + 'px'
+	flipPath.style.top = (movement.startTop+40) + 'px'
+	if (movement.top < movement.left) {
+		flipPath.style.width = Math.abs(movement.left-15) + 'px'
+	} else flipPath.style.width = '1px'
+	if (movement.top > movement.left) {
+		flipPath.style.height = Math.abs(movement.top-25) + 'px'
+	} else flipPath.style.height = '1px'
+
+	document.body.appendChild(flipPath)
+}
+
+function flipPathCells(validPlacements, cell) {
+	var thisID = getCellPosition(cell)
+	var flipPathBeginning = $('#gamegrid tr:nth-child('+(validPlacements[thisID][0]+1) +
+		') td:nth-child('+ (validPlacements[thisID][1]+1) +')')
+	var flipPathEnd = $('#gamegrid tr:nth-child('+ (validPlacements[thisID][2][0]+1) +
+		') td:nth-child('+ (validPlacements[thisID][2][1]+1) +')')
+	return {beginning:flipPathBeginning, end:flipPathEnd}
+}
+
+function flipPathMovement(validPlacements, cell) {
+	var path = flipPathCells(validPlacements, cell)
+	var movement = getCoordinates(path.beginning, path.end)
+	if ((movement.top < 0) || (movement.left < 0)) {
+		movement = getCoordinates(path.end, path.beginning)
+	}
+	return movement
+}
+
+/**
+ * Find the class name identifying which valid position cell is selected.
+ * @param {td element} cell - td the user is hovering on or has selected.
+ * @returns {number} The id for the selected td.
+ */
 function getCellPosition(cell) {
 		var thisValidClass = cell.classList[1]
 		return parseInt(thisValidClass.substring(1,2))
 }
 
-/*function drawFlipPaths(start, end) {
-	var canvas = document.getElementById('canvas')
-	if (canvas.getContext) {
-		var ctx = canvas.getContext('ad')
-
-		ctx.strokeStyle = 'red'
-		ctx.moveTo(start.left, start.top)
-		ctx.lineTo(end.left, end.top)
-		ctx.stroke();
+/**
+ * Highlight movements that are legal to the player.
+ * @param {array} validPlacements - Array containing the cells to be highlighted.
+ */
+function highlightValidMoves(validPlacements) {
+	for (var i=0; i<validPlacements.length; i++) {
+		var row = validPlacements[i][0] + 1
+		var col = validPlacements[i][1] + 1
+		$('#gamegrid tr:nth-child('+ row +') td:nth-child('+ col +')').addClass('valid v'+i)
 	}
-}*/
+}

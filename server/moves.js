@@ -13,7 +13,12 @@ function Gamegrid() {
 	this.gamegrid[3][4] = 'white'
 	this.gamegrid[4][3] = 'white'
 	this.gamegrid[4][4] = 'black'
-	//this.gamegrid[5][3] = 'white'
+}
+
+function addTurn(io, socket) {
+	return function(player, coordinates) {
+		console.log(player, coordinates)
+	}
 }
 
 /**
@@ -111,3 +116,4 @@ Gamegrid.prototype.findPlayerStraights = function(row, col, player) {
 }
 
 exports.Gamegrid = Gamegrid
+exports.addTurn = addTurn
