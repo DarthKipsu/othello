@@ -21,8 +21,8 @@ Gamegrid.prototype.makeMove = function(player, coordinates) {
 }
 
 Gamegrid.prototype.addNewChip = function(player, coordinates) {
-	var checkValidity = this.findPlayerStraights(coordinates[0], coordinates[1], player)
-	if (checkValidity) this.gamegrid[coordinates[0]][coordinates[1]] = player
+	var checkValidity = this.findPlayerStraights(coordinates.emptyRow, coordinates.emptyCol, player)
+	if (checkValidity) this.gamegrid[coordinates.emptyRow][coordinates.emptyCol] = player
 	console.log(this.gamegrid)
 }
 
@@ -105,7 +105,12 @@ Gamegrid.prototype.findAStraight = function(row, col, player, rowOffset, colOffs
 	for (var i=1; i<8; i++) {
 		if (this.gamegrid[row + rowOffset*i][col + colOffset*i]==undefined) break
 		else if (this.gamegrid[row + rowOffset][col + colOffset]==player) break
-		else if (this.gamegrid[row + rowOffset*i][col + colOffset*i]==player) return [row, col, [row + rowOffset*i, col + colOffset*i]]
+		else if (this.gamegrid[row + rowOffset*i][col + colOffset*i]==player) return {
+			emptyRow: row,
+			emptyCol: col,
+			playerRow: row + rowOffset*i,
+			playerCol: col + colOffset*i
+		}
 	}
 }
 

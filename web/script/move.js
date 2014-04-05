@@ -199,10 +199,10 @@ function showFlipPath(validPlacements, cell) {
 
 function flipPathCells(validPlacements, cell) {
 	var thisID = getCellPosition(cell)
-	var flipPathBeginning = $('#gamegrid tr:nth-child('+(validPlacements[thisID][0]+1) +
-		') td:nth-child('+ (validPlacements[thisID][1]+1) +')')
-	var flipPathEnd = $('#gamegrid tr:nth-child('+ (validPlacements[thisID][2][0]+1) +
-		') td:nth-child('+ (validPlacements[thisID][2][1]+1) +')')
+	var flipPathBeginning = $('#gamegrid tr:nth-child('+(validPlacements[thisID].emptyRow+1) +
+		') td:nth-child('+ (validPlacements[thisID].emptyCol+1) +')')
+	var flipPathEnd = $('#gamegrid tr:nth-child('+ (validPlacements[thisID].playerRow+1) +
+		') td:nth-child('+ (validPlacements[thisID].playerCol+1) +')')
 	return {beginning:flipPathBeginning, end:flipPathEnd}
 }
 
@@ -231,8 +231,8 @@ function getCellPosition(cell) {
  */
 function highlightValidMoves(validPlacements) {
 	for (var i=0; i<validPlacements.length; i++) {
-		var row = validPlacements[i][0] + 1
-		var col = validPlacements[i][1] + 1
+		var row = validPlacements[i].emptyRow + 1
+		var col = validPlacements[i].emptyCol + 1
 		$('#gamegrid tr:nth-child('+ row +') td:nth-child('+ col +')').addClass('valid v'+i)
 	}
 }
