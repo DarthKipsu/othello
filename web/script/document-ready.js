@@ -39,12 +39,14 @@ $(document).ready(function() {
 		if (playerColor==previousTurn) {
 			$('.valid').unbind().empty().removeClass()
 			$('.flipPath').remove()
+			
 		} else {
 			showTurnFunctions(validPlacements, turn)
 		}
 		var targetCell = $('#gamegrid tr:nth-child(' + (newMoves.newChip[0] + 1) +
 			') td:nth-child(' + (newMoves.newChip[1]+1) + ')')
 		placeAChip(targetCell, previousTurn, playerColor)
+		changeTurn(playerColor)
 		console.log('new turn', playerColor, newMoves, hash, turn)
 		console.log(gamegridArray)
 	})

@@ -13,3 +13,10 @@ function beginTurns(player) {
 	if (player == 'black') $('#turn-marker').append('Your turn!')
 	else $('#turn-marker').append('Black players turn, waiting...')
 }
+
+function changeTurn(player) {
+	if ((player == 'black') && (turn == 'white')) $('#turn-marker').html('White players turn, waiting...')
+	else if ((player == 'black') && (turn == 'black')) $('#turn-marker').html('Your turn!')
+	else if ((player == 'white') && (turn == 'black')) $('#turn-marker').html('Black players turn, waiting...')
+	else $('#turn-marker').html('Your turn!')
+}
