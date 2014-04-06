@@ -47,6 +47,17 @@ function placeAChip(targetCell, chipColor, player) {
 	updateAllScores(player) //score.js
 }
 
+function rotateChip(player, chipColor, newMoves) {
+	var movementRandomName = 'move' + randomNumberForMovementName.getTime()
+	var chipIds = []
+	for (var i=0; i<newMoves.rotatedChips.length; i++) {
+		chipIds.push(gamegridArray[newMoves.rotatedChips[i][0]][newMoves.rotatedChips[i][1]])
+	}
+	console.log('chipIDs:', chipIds, player, chipColor)
+	if (chipColor=="black") rotateABlackChip(chipIds, createTemporaryStyleForMove(), movementRandomName)
+	else rotateAWhiteChip(chipIds, createTemporaryStyleForMove(), movementRandomName)
+}
+
 function pushToGamegridArray(id, targetCell) {
 	var row = targetCell.selector.substring(23,24)-1
 	var col = targetCell.selector.substring(39,40)-1
@@ -168,6 +179,13 @@ function moveWhiteChipToGameboard(moveCss, topMovement, leftMovement, movementRa
 		leftMovement+ "px;} }",0)
 		$('.white .bottom').css('background', 'linear-gradient(to bottom, #D9D9D9 0%, #FFF 100%) repeat scroll 0% 0% #FFF')
 	} catch (e) {}
+}
+
+function rotateABlackChip(chipIds, moveCss, movementRandomName) {
+	for (var i=0; i<chipIds.length; i++) {
+		console.log($('#' + chipIds[i]))
+		$('#' + chipIds[i]).addClass('rotated')
+	}
 }
 
 /**

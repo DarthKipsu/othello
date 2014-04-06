@@ -46,6 +46,7 @@ $(document).ready(function() {
 		var targetCell = $('#gamegrid tr:nth-child(' + (newMoves.newChip[0] + 1) +
 			') td:nth-child(' + (newMoves.newChip[1]+1) + ')')
 		placeAChip(targetCell, previousTurn, playerColor)
+		rotateChip(playerColor, previousTurn, newMoves)
 		changeTurn(playerColor)
 		console.log('new turn', playerColor, newMoves, hash, turn)
 		console.log(gamegridArray)
