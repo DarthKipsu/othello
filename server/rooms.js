@@ -82,12 +82,15 @@ function startGame(io, hash) {
 
 function endTurn(io, socket) {
 	return function(player, coordinates, hash) {
+		newPlayer = player=='black'?'white':'black'
+		var makeMove = rooms[hash].gamegrid.makeMove(player, coordinates)
+		var validPlacements = rooms[hash].gamegrid.validPlacements(newPlayer)
 		for (var i=0; i<2; i++) {
 			console.log('room:', rooms[hash][i])
 			var clientId = rooms[hash][i].clientId
 			var playerColor = rooms[hash][i].player
 			io.sockets.socket(clientId).emit('new turn', playerColor, player, 
-				rooms[hash].gamegrid.makeMove(player, coordinates), hash) //moves.js
+				makeMove, validPlacements, hash) //moves.js
 		}
 	}
 }

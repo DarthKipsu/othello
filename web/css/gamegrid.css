@@ -28,6 +28,16 @@ td {
 	opacity: 0.4;
 }
 
+.white-highlight {
+	background: white;
+	background-image: -webkit-linear-gradient(bottom, #D9D9D9 0%, #FFFFFF 100%);
+	background-image: linear-gradient(to bottom, #D9D9D9 0%, #FFFFFF 100%);
+	width: 75;
+	height: 75px;
+	border-radius: 36px;
+	opacity: 0.4;
+}
+
 .flipPath {
 	position: absolute;
 	background: red;

@@ -16,26 +16,39 @@ function Gamegrid() {
 }
 
 Gamegrid.prototype.makeMove = function(player, coordinates) {
-	var newGamegrid = this.addNewChip(player, coordinates)
-	return newGamegrid
+	var newMoves = this.addNewChip(player, coordinates)
+	return newMoves
 }
 
 Gamegrid.prototype.addNewChip = function(player, coord) {
+	var newMoves
 	var checkValidity = this.findPlayerStraights(coord.emptyRow, coord.emptyCol, player)
 	if (checkValidity) {
 		var affectedCellCount = coord.emptyRow-coord.playerRow
 		if (affectedCellCount == 0) {
 			affectedCellCount = coord.emptyCol-coord.playerCol
 		}
-		this.changeChipColor(Math.abs(affectedCellCount)+1, player, coord)
+		newMoves = this.changeChipColor(Math.abs(affectedCellCount)+1, player, coord)
 	}
-	return this.gamegrid
+	return newMoves
 }
 
 Gamegrid.prototype.changeChipColor = function(affectedCellCount, player, coord) {
+	var newChip = []
+	var rotatedChips = []
 	for (var i=0; i<affectedCellCount; i++) {
-	      this.gamegrid[coord.emptyRow + coord.rowOffset*i][coord.emptyCol + coord.colOffset*i] = player
+		var row = coord.emptyRow + coord.rowOffset*i
+		var col = coord.emptyCol + coord.colOffset*i
+		var chipColor = this.gamegrid[row][col]
+		if (chipColor==undefined) {
+			newChip.push(row, col)
+			this.gamegrid[row][col] = player
+		} else if (chipColor!=player) {
+			rotatedChips.push([row, col])
+			this.gamegrid[row][col] = player
+		}
 	}
+	return {newChip:newChip, rotatedChips:rotatedChips}
 }
 
 /**

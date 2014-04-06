@@ -39,11 +39,18 @@ function placeAChip(targetCell, chipColor, player) {
 	var movement = getCoordinates(lastChild, targetCell)
 
 	changeLastChildAttributes(lastChild, movementRandomName, chipColor)
+	pushToGamegridArray(lastChild.id, targetCell)
 
 	if (chipColor == 'white') moveWhiteChipToGameboard(createTemporaryStyleForMove(), movement.top, movement.left, movementRandomName)
 	else moveBlackChipToGameboard(createTemporaryStyleForMove(), movement.top, movement.left, movementRandomName)
 	
 	updateAllScores(player) //score.js
+}
+
+function pushToGamegridArray(id, targetCell) {
+	var row = targetCell.selector.substring(23,24)-1
+	var col = targetCell.selector.substring(39,40)-1
+	gamegridArray[row][col] = id
 }
 
 /**
@@ -167,10 +174,10 @@ function moveWhiteChipToGameboard(moveCss, topMovement, leftMovement, movementRa
  * Add valid class to gamegrid td's where player can move their chip into.
  * @param {array} validPlacements - Array containning identification to valid movement cells.
  */
-function showTurnFunctions(validPlacements) {
+function showTurnFunctions(validPlacements, player) {
 	highlightValidMoves(validPlacements)
 	$('.valid').mouseenter(function() {
-		$(this).append('<div class="black-highlight"></div>')
+		$(this).append('<div class="' + player + '-highlight"></div>')
 		showFlipPath(validPlacements, this)
 	})
 	$('.valid').mouseleave(function() {

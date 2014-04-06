@@ -1,3 +1,8 @@
+var gamegridArray = new Array(8)
+for (var i=0; i<8; i++) {
+	gamegridArray[i] = new Array(8)
+}
+
 /** Creates the gameboard including chipslots. */
 function createGameboard() {
 	$('#game-wrapper').append(createChipSlot('player'), createChipSlot('opponent'), createGamegrid());
@@ -87,6 +92,13 @@ function createChips(playerColor, player) {
 	for (var i=0; i<32; i++) {
 		var chip = document.createElement('div');
 		chip.classList.add(playerColor + '-unused', 'chip');
+		if (playerColor == 'black') {
+			if (player == 'player') chip.id = 'b' + (31 -i)
+			else chip.id = 'b' + i
+		} else {
+			if (player == 'player') chip.id = 'w' + (31 -i)
+			else chip.id = 'w' + i
+		}
 		if (player == "opponent") {
 			chip.style.zIndex = (50 - i);
 		}
