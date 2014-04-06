@@ -20,25 +20,21 @@ Gamegrid.prototype.makeMove = function(player, coordinates) {
 	this.addNewChip(player, coordinates)
 }
 
-Gamegrid.prototype.addNewChip = function(player, coordinates) {
-	var checkValidity = this.findPlayerStraights(coordinates.emptyRow, coordinates.emptyCol, player)
+Gamegrid.prototype.addNewChip = function(player, coord) {
+	var checkValidity = this.findPlayerStraights(coord.emptyRow, coord.emptyCol, player)
 	if (checkValidity) {
-		var affectedCellCount = coordinates.emptyRow-coordinates.playerRow
+		var affectedCellCount = coord.emptyRow-coord.playerRow
 		if (affectedCellCount == 0) {
-			affectedCellCount = coordinates.emptyCol-coordinates.playerCol
-			if (affectedCellCount<0) this.changeChipColor(Math.abs(affectedCellCount-1), player, coordinates, 0, 1)
-			else this.changeChipColor(affectedCellCount+1, player, coordinates, 0, -1)
-		} else {
-			if (affectedCellCount<0) this.changeChipColor(Math.abs(affectedCellCount-1), player, coordinates, 1, 0)
-			else this.changeChipColor(affectedCellCount+1, player, coordinates, -1, 0)
+			affectedCellCount = coord.emptyCol-coord.playerCol
 		}
+		this.changeChipColor(Math.abs(affectedCellCount)+1, player, coord)
 		console.log(this.gamegrid)
 	}
 }
 
-Gamegrid.prototype.changeChipColor = function(affectedCellCount, player, coordinates, rowOffset, colOffset) {
+Gamegrid.prototype.changeChipColor = function(affectedCellCount, player, coord) {
 	for (var i=0; i<affectedCellCount; i++) {
-	      this.gamegrid[coordinates.emptyRow + rowOffset*i][coordinates.emptyCol + colOffset*i] = player
+	      this.gamegrid[coord.emptyRow + coord.rowOffset*i][coord.emptyCol + coord.colOffset*i] = player
 	}
 }
 
@@ -125,7 +121,9 @@ Gamegrid.prototype.findAStraight = function(row, col, player, rowOffset, colOffs
 			emptyRow: row,
 			emptyCol: col,
 			playerRow: row + rowOffset*i,
-			playerCol: col + colOffset*i
+			playerCol: col + colOffset*i,
+			rowOffset: rowOffset,
+			colOffset: colOffset
 		}
 	}
 }
