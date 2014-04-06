@@ -16,8 +16,8 @@ function Gamegrid() {
 }
 
 Gamegrid.prototype.makeMove = function(player, coordinates) {
-	console.log(this.gamegrid)
-	this.addNewChip(player, coordinates)
+	var newGamegrid = this.addNewChip(player, coordinates)
+	return newGamegrid
 }
 
 Gamegrid.prototype.addNewChip = function(player, coord) {
@@ -28,8 +28,8 @@ Gamegrid.prototype.addNewChip = function(player, coord) {
 			affectedCellCount = coord.emptyCol-coord.playerCol
 		}
 		this.changeChipColor(Math.abs(affectedCellCount)+1, player, coord)
-		console.log(this.gamegrid)
 	}
+	return this.gamegrid
 }
 
 Gamegrid.prototype.changeChipColor = function(affectedCellCount, player, coord) {

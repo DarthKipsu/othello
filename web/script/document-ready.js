@@ -32,4 +32,13 @@ $(document).ready(function() {
 			})
 		}, 4000)
 	})
+
+	socket.on("new turn", function(playerColor, previousTurn, gamegrid, hash) {
+		turn = previousTurn=='black'?'white':'black'
+		if (playerColor==previousTurn) {
+			$('.valid').unbind('mouseenter').unbind('mouseleave').unbind('click').empty().removeClass()
+			$('.flipPath').remove()
+		}
+		console.log('new turn', playerColor, gamegrid, hash, turn)
+	})
 })
