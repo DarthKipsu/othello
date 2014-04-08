@@ -38,7 +38,8 @@ function placeAChip(targetCell, chipColor, player) {
 	/** @function getCoordinates */
 	var movement = getCoordinates(lastChild, targetCell)
 
-	changeLastChildAttributes(lastChild, movementRandomName, chipColor)
+	addAnimationToLastChild(lastChild, movementRandomName, ' 2s')
+	addClassesToLastChild(lastChild, chipColor)
 	pushToGamegridArray(lastChild.id, targetCell)
 
 	if (chipColor == 'white') moveWhiteChipToGameboard(createTemporaryStyleForMove(), movement.top, movement.left, movementRandomName)
@@ -47,15 +48,24 @@ function placeAChip(targetCell, chipColor, player) {
 	updateAllScores(player) //score.js
 }
 
-function rotateChip(player, chipColor, newMoves) {
-	var movementRandomName = 'move' + randomNumberForMovementName.getTime()
+function rotateChip(player, chipColor, newMoves) {i
 	var chipIds = []
 	for (var i=0; i<newMoves.rotatedChips.length; i++) {
 		chipIds.push(gamegridArray[newMoves.rotatedChips[i][0]][newMoves.rotatedChips[i][1]])
 	}
 	console.log('chipIDs:', chipIds, player, chipColor)
-	if (chipColor=="black") rotateABlackChip(chipIds, createTemporaryStyleForMove(), movementRandomName)
-	else rotateAWhiteChip(chipIds, createTemporaryStyleForMove(), movementRandomName)
+
+	for (var i=0; i<chipIds.length; i++) {
+		var randomNumberForMovementName = new Date
+		var movementRandomName = 'rotate' + randomNumberForMovementName.getTime()
+
+		console.log($('#' + chipIds[i]))
+		var lastChild = $('#' + chipIds[i])
+		addAnimationToLastChild(lastChild, movementRandomName, ' 1s')
+
+		if (chipColor=="black") rotateABlackChip(chipIds, createTemporaryStyleForMove(), movementRandomName)
+		else rotateAWhiteChip(chipIds, createTemporaryStyleForMove(), movementRandomName)
+	}
 }
 
 function pushToGamegridArray(id, targetCell) {
@@ -105,9 +115,12 @@ function getCoordinates(lastChild, targetCell) {
  * @param {number} movementRandomName - A random number for CSS animation individual naming.
  * @param {string} player - The color of the chip being placed.
  */
-function changeLastChildAttributes(lastChild, movementRandomName, player) {
-	$(lastChild).css('animation', movementRandomName + ' 2s 1 forwards')
+function addAnimationToLastChild(lastChild, movementRandomName, time) {
+	$(lastChild).css('animation', movementRandomName + time + ' 1 forwards')
 	$(lastChild).css('z-index', '0')
+}
+
+function addClassesToLastChild(lastChild, player) {
 	if (player == "black") $(lastChild).attr('class', 'chip black')
 	else $(lastChild).attr('class', 'chip white')
 }
@@ -121,71 +134,6 @@ function createTemporaryStyleForMove() {
 	style.appendChild(document.createTextNode(''))
 	document.head.appendChild(style)
 	return style.sheet
-}
-
-/**
- * Add CSS to move the black chip.
- * @param {stylesheet} moveCss - Stylesheet created temporarily for the animation.
- * @param {number} topMovement - Vertical movement for the chip.
- * @param {number} leftMovement - Horizonal movement for the chip.
- * @param {number} movementRandomName - A random number to identify the CSS aniamtion from.
- */
-function moveBlackChipToGameboard(moveCss, topMovement, leftMovement, movementRandomName) {
-	try {
-		moveCss.insertRule("@-webkit-keyframes " + movementRandomName + " { from { -webkit-transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {-webkit-transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} 90% {-webkit-transform: rotateX(70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} 95% {-webkit-transform: rotateX(110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} to { -webkit-transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} }",0) 
-	} catch (e) {}
-	try {
-		moveCss.insertRule("@keyframes  " + movementRandomName + " { from { transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} 90% {transform: rotateX(70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} 95% {transform: rotateX(110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} to { transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} }",0)
-	} catch (e) {}
-}
-
-function moveWhiteChipToGameboard(moveCss, topMovement, leftMovement, movementRandomName) {
-	try {
-		moveCss.insertRule("@-webkit-keyframes  " + movementRandomName + " { from { -webkit-transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {-webkit-transform: rotateX(-90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} 90% {-webkit-transform: rotateX(-70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} 95% {-webkit-transform: rotateX(-110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} to { -webkit-transform: rotateX(-90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		(topMovement-3) + "px; left: " +
-		leftMovement+ "px;} }",0) 
-	} catch (e) {}
-	try {
-		moveCss.insertRule("@keyframes  " + movementRandomName + " { from { transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {transform: rotateX(-89deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} 90% {transform: rotateX(-70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} 95% {transform: rotateX(-110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} to { transform: rotateX(-89deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		(topMovement-3) + "px; left: " +
-		leftMovement+ "px;} }",0)
-		$('.white .bottom').css('background', 'linear-gradient(to bottom, #D9D9D9 0%, #FFF 100%) repeat scroll 0% 0% #FFF')
-	} catch (e) {}
-}
-
-function rotateABlackChip(chipIds, moveCss, movementRandomName) {
-	for (var i=0; i<chipIds.length; i++) {
-		console.log($('#' + chipIds[i]))
-		$('#' + chipIds[i]).addClass('rotated')
-	}
 }
 
 /**
@@ -260,4 +208,68 @@ function highlightValidMoves(validPlacements) {
 		var col = validPlacements[i].emptyCol + 1
 		$('#gamegrid tr:nth-child('+ row +') td:nth-child('+ col +')').addClass('valid v'+i)
 	}
+}
+
+/**
+ * Add CSS to move the black chip.
+ * @param {stylesheet} moveCss - Stylesheet created temporarily for the animation.
+ * @param {number} topMovement - Vertical movement for the chip.
+ * @param {number} leftMovement - Horizonal movement for the chip.
+ * @param {number} movementRandomName - A random number to identify the CSS aniamtion from.
+ */
+function moveBlackChipToGameboard(moveCss, topMovement, leftMovement, movementRandomName) {
+	try {
+		moveCss.insertRule("@-webkit-keyframes " + movementRandomName + " { from { -webkit-transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {-webkit-transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} 90% {-webkit-transform: rotateX(70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} 95% {-webkit-transform: rotateX(110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} to { -webkit-transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} }",0) 
+	} catch (e) {}
+	try {
+		moveCss.insertRule("@keyframes  " + movementRandomName + " { from { transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} 90% {transform: rotateX(70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} 95% {transform: rotateX(110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} to { transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} }",0)
+	} catch (e) {}
+}
+
+function moveWhiteChipToGameboard(moveCss, topMovement, leftMovement, movementRandomName) {
+	try {
+		moveCss.insertRule("@-webkit-keyframes  " + movementRandomName + " { from { -webkit-transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {-webkit-transform: rotateX(-90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} 90% {-webkit-transform: rotateX(-70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} 95% {-webkit-transform: rotateX(-110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} to { -webkit-transform: rotateX(-90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		(topMovement-3) + "px; left: " +
+		leftMovement+ "px;} }",0) 
+	} catch (e) {}
+	try {
+		moveCss.insertRule("@keyframes  " + movementRandomName + " { from { transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {transform: rotateX(-89deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} 90% {transform: rotateX(-70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} 95% {transform: rotateX(-110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		topMovement+ "px; left: " +
+		leftMovement+ "px;} to { transform: rotateX(-89deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
+		(topMovement-3) + "px; left: " +
+		leftMovement+ "px;} }",0)
+		$('.white .bottom').css('background', 'linear-gradient(to bottom, #D9D9D9 0%, #FFF 100%) repeat scroll 0% 0% #FFF')
+	} catch (e) {}
+}
+
+function rotateABlackChip(chipIds, moveCss, movementRandomName) {
+	try {
+		moveCss.insertRule("@-webkit-keyframes " + movementRandomName + " { from { -webkit-transform: rotateX(90deg) scale(0.7);} 50% {-webkit-transform: rotateX(0deg) scale(0.7) scaleZ(0.7);} to {-webkit-transform: rotateX(-90deg) scale(0.7) scaleZ(0.7);} }",0) 
+	} catch (e) {}
 }
