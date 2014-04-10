@@ -35,7 +35,7 @@ $(document).ready(function() {
 
 	socket.on("new turn", function(playerColor, previousTurn, newMoves, validPlacements,  hash) {
 		turn = previousTurn=='black'?'white':'black'
-		console.log('gamegrid array', gamegridArray)
+
 		if (playerColor==previousTurn) {
 			$('.valid').unbind().empty().removeClass()
 			$('.flipPath').remove()
@@ -43,11 +43,20 @@ $(document).ready(function() {
 		} else {
 			showTurnFunctions(validPlacements, turn)
 		}
+
 		var targetCell = $('#gamegrid tr:nth-child(' + (newMoves.newChip[0] + 1) +
 			') td:nth-child(' + (newMoves.newChip[1]+1) + ')')
 		placeAChip(targetCell, previousTurn, playerColor)
 		rotateChip(playerColor, previousTurn, newMoves)
 		changeTurn(playerColor)
+
+		$('.valid, .black-highlight, .white-highlight').click(function() {
+			var thisID = getCellPosition(this) //move.js
+			var thisCoordinates = validPlacements[thisID]
+			socket.emit('turn end', playerColor, thisCoordinates, hash)
+			console.log('turn end', playerColor, thisCoordinates)
+		})
+
 		console.log('new turn', playerColor, newMoves, hash, turn)
 		console.log(gamegridArray)
 	})
