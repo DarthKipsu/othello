@@ -239,6 +239,35 @@ function moveChipToGameboard(chipColor, moveCss, topMovement, leftMovement, move
 	}
 }
 
+function rotateChipCss(chipColor, chipIds, moveCss, movementRandomName) {
+	var chipPosition = getCoordinates($('#'+chipIds[0]), $('#gamegrid tr:nth-child(' + (chipIds[1]+1) + ') td:nth-child(' + (chipIds[2]+1) + ')'))
+
+	if (chipColor=='black') {
+		try {
+			addCssForRotationMovement(chipIds, moveCss, movementRandomName,
+					'-webkit-', '', chipPosition.top-3, chipPosition.left-10)
+		} catch (e) {
+			rotateFirefoxFix(chipIds, moveCss, movementRandomName, chipPosition)
+		}
+	} else {
+		try {
+			addCssForRotationMovement(chipIds, moveCss, movementRandomName,
+					'-webkit-', '-', chipPosition.top-3, chipPosition.left-10)
+		} catch (e) {
+			rotateFirefoxFix(chipIds, moveCss, movementRandomName, chipPosition)
+		}
+	}
+}
+
+function rotateFirefoxFix(chipIds, moveCss, movementRandomName, chipPosition) {
+	addCssForRotationMovement(chipIds, moveCss, movementRandomName,
+			'', '', chipPosition.top-3, chipPosition.left-10)
+	setTimeout(function() {
+		$('#' + chipIds[0] + '.white .bottom').css('background', 'linear-gradient(to bottom, #D9D9D9 0%, #FFF 100%) repeat scroll 0% 0% #FFF')
+		$('#' + chipIds[0] + '.black .bottom').css('background', 'linear-gradient(to bottom, #000000 0%, #363636 100%) repeat scroll 0% 0% #FFF')
+	}, 500)
+}
+
 function addCssForGameboardMovement(moveCss, topMovement, leftMovement, movementRandomName, cssWebkit, negative) {
 
 	var cssRotate = 'transform: rotateX('
@@ -280,26 +309,7 @@ function addCssForGameboardMovement(moveCss, topMovement, leftMovement, movement
 	cssLeft + leftMovement + 'px;} }',0)
 }
 
-function rotateChipCss(chipColor, chipIds, moveCss, movementRandomName) {
-	var chipPosition = getCoordinates($('#'+chipIds[0]), $('#gamegrid tr:nth-child(' + (chipIds[1]+1) + ') td:nth-child(' + (chipIds[2]+1) + ')'))
-
-	if (chipColor=='black') {
-		try {
-			addCssForRotationMovement(chipIds, moveCss, movementRandomName,
-					'-webkit-', '', chipPosition.top-3, chipPosition.left-10)
-		} catch (e) {
-			addCssForRotationMovement(chipIds, moveCss, movementRandomName,
-					'', '', chipPosition.top-3, chipPosition.left-10)
-			setTimeout(function() {
-				$('.white .bottom').css('background', 'linear-gradient(to bottom, #D9D9D9 0%, #FFF 100%) repeat scroll 0% 0% #FFF')
-				$('.black .bottom').css('background', 'linear-gradient(to bottom, #000000 0%, #363636 100%) repeat scroll 0% 0% #FFF')
-			}, 500)
-		}
-	} else {
-		console.log('white chip')
-	}
-}
- function addCssForRotationMovement(chipIds, moveCss, movementRandomName, cssWebkit, negative, topPosition, leftPosition) {
+function addCssForRotationMovement(chipIds, moveCss, movementRandomName, cssWebkit, negative, topPosition, leftPosition) {
 
 	var cssRotate = 'transform: rotateX('
 	    cssScale = 'deg) scale('
