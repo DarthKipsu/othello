@@ -42,8 +42,7 @@ function placeAChip(targetCell, chipColor, player) {
 	addClassesToLastChild(lastChild, chipColor)
 	pushToGamegridArray(lastChild.id, targetCell)
 
-	if (chipColor == 'white') moveWhiteChipToGameboard(createTemporaryStyleForMove(), movement.top, movement.left, movementRandomName)
-	else moveBlackChipToGameboard(createTemporaryStyleForMove(), movement.top, movement.left, movementRandomName)
+	moveChipToGameboard(chipColor, createTemporaryStyleForMove(), movement.top, movement.left, movementRandomName)
 	
 	updateAllScores(player) //score.js
 }
@@ -217,59 +216,72 @@ function highlightValidMoves(validPlacements) {
  * @param {number} leftMovement - Horizonal movement for the chip.
  * @param {number} movementRandomName - A random number to identify the CSS aniamtion from.
  */
-function moveBlackChipToGameboard(moveCss, topMovement, leftMovement, movementRandomName) {
-	try {
-		moveCss.insertRule("@-webkit-keyframes " + movementRandomName + " { from { -webkit-transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {-webkit-transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} 90% {-webkit-transform: rotateX(70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} 95% {-webkit-transform: rotateX(110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} to { -webkit-transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} }",0) 
-	} catch (e) {}
-	try {
-		moveCss.insertRule("@keyframes  " + movementRandomName + " { from { transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} 90% {transform: rotateX(70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} 95% {transform: rotateX(110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} to { transform: rotateX(90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} }",0)
-	} catch (e) {}
+function moveChipToGameboard(chipColor, moveCss, topMovement, leftMovement, movementRandomName) {
+	var ffFix = $('.white .bottom').css('background', 'linear-gradient(to bottom, #D9D9D9 0%, #FFF 100%) repeat scroll 0% 0% #FFF')
+	if (chipColor=='black') {
+		try {
+			addCssForGameboardMovement(moveCss, topMovement, leftMovement,
+				movementRandomName, '-webkit-', '', '')
+		} catch (e) {
+			addCssForGameboardMovement(moveCss, topMovement, leftMovement,
+				movementRandomName, '', '', '')
+		}
+	} else {
+		try {
+			addCssForGameboardMovement(moveCss, topMovement-3, leftMovement,
+					movementRandomName, '-webkit-', '-', '')
+		} catch (e) {
+			addCssForGameboardMovement(moveCss, topMovement-3, leftMovement,
+					movementRandomName, '', '-', ffFix)
+		}
+	}
 }
 
-function moveWhiteChipToGameboard(moveCss, topMovement, leftMovement, movementRandomName) {
-	try {
-		moveCss.insertRule("@-webkit-keyframes  " + movementRandomName + " { from { -webkit-transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {-webkit-transform: rotateX(-90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} 90% {-webkit-transform: rotateX(-70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} 95% {-webkit-transform: rotateX(-110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} to { -webkit-transform: rotateX(-90deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		(topMovement-3) + "px; left: " +
-		leftMovement+ "px;} }",0) 
-	} catch (e) {}
-	try {
-		moveCss.insertRule("@keyframes  " + movementRandomName + " { from { transform: rotateX(8deg) scale(0.8, 0.8); position: absolute; top: 0px; left: 0px;} 85% {transform: rotateX(-89deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} 90% {transform: rotateX(-70deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} 95% {transform: rotateX(-110deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		topMovement+ "px; left: " +
-		leftMovement+ "px;} to { transform: rotateX(-89deg) scale(0.7) scaleZ(0.7); position: absolute; top: " + 
-		(topMovement-3) + "px; left: " +
-		leftMovement+ "px;} }",0)
-		$('.white .bottom').css('background', 'linear-gradient(to bottom, #D9D9D9 0%, #FFF 100%) repeat scroll 0% 0% #FFF')
-	} catch (e) {}
+function addCssForGameboardMovement(moveCss, topMovement, leftMovement, movementRandomName, cssWebkit, negative, ffFix) {
+
+	var cssRotate = 'transform: rotateX('
+	    cssScale = 'deg) scale('
+	    cssScaleZ = ') scaleZ('
+	    cssTop = '); position: absolute; top: '
+	    cssLeft = 'px; left: '
+
+	moveCss.insertRule('@' + cssWebkit + 'keyframes ' + 
+	movementRandomName + ' { from { ' + cssWebkit + 
+	// 0%
+	cssRotate + '8' + 
+	cssScale + '0.8, 0.8' + 
+	cssTop + '0' + 
+	cssLeft + '0px;} 85% {' + cssWebkit + 
+	// 85%
+	cssRotate + negative + '90' + 
+	cssScale + '0.7' +
+	cssScaleZ + '0.7' + 
+	cssTop + topMovement + 
+	cssLeft + leftMovement + 'px;} 90% {' + cssWebkit + 
+	// 90%
+	cssRotate + negative + '70' + 
+	cssScale + '0.7' + 
+	cssScaleZ + '0.7' + 
+	cssTop + topMovement + 
+	cssLeft + leftMovement+ 'px;} 95% {' + cssWebkit + 
+	// 95%
+	cssRotate + negative + '110' + 
+	cssScale + '0.7' + 
+	cssScaleZ + '0.7' + 
+	cssTop + topMovement + 
+	cssLeft + leftMovement + 'px;} to { ' + cssWebkit + 
+	// 100%
+	cssRotate + negative + '90' + 
+	cssScale + '0.7' + 
+	cssScaleZ + '0.7' + 
+	cssTop + topMovement + 
+	cssLeft + leftMovement + 'px;} }',0) +
+	// Firefox rotation color fix
+	ffFix
 }
 
-function rotateABlackChip(chipIds, moveCss, movementRandomName) {
+/*function rotateABlackChip(chipIds, moveCss, movementRandomName) {
 	try {
-		moveCss.insertRule("@-webkit-keyframes " + movementRandomName + " { from { -webkit-transform: rotateX(90deg) scale(0.7);} 50% {-webkit-transform: rotateX(0deg) scale(0.7) scaleZ(0.7);} to {-webkit-transform: rotateX(-90deg) scale(0.7) scaleZ(0.7);} }",0) 
+		moveCss.insertRule('@' + cWebkit + 'keyframes ' + movementRandomName + ' { from { ' + cWebkit + '' + cRotate + '90' + cScale + '0.7);} 50% {' + cWebkit + '' + cRotate + '0' + cScale + '0.7) scaleZ(0.7);} to {' + cWebkit + '' + cRotate + '-90' + cScale + '0.7) scaleZ(0.7);} }',0) 
 	} catch (e) {}
-}
+}*/
