@@ -219,27 +219,27 @@ function highlightValidMoves(validPlacements) {
  * @param {number} movementRandomName - A random number to identify the CSS aniamtion from.
  */
 function moveChipToGameboard(chipColor, moveCss, topMovement, leftMovement, movementRandomName) {
-	//var ffFix = $('.white .bottom').css('background', 'linear-gradient(to bottom, #D9D9D9 0%, #FFF 100%) repeat scroll 0% 0% #FFF')
 	if (chipColor=='black') {
 		try {
 			addCssForGameboardMovement(moveCss, topMovement, leftMovement,
-				movementRandomName, '-webkit-', '', '')
+				movementRandomName, '-webkit-', '')
 		} catch (e) {
 			addCssForGameboardMovement(moveCss, topMovement, leftMovement,
-				movementRandomName, '', '', '')
+				movementRandomName, '', '')
 		}
 	} else {
 		try {
 			addCssForGameboardMovement(moveCss, topMovement-3, leftMovement,
-					movementRandomName, '-webkit-', '-', '')
+					movementRandomName, '-webkit-', '-')
 		} catch (e) {
 			addCssForGameboardMovement(moveCss, topMovement-3, leftMovement,
-					movementRandomName, '', '-', ffFix)
+					movementRandomName, '', '-')
+			$('.white .bottom').css('background', 'linear-gradient(to bottom, #D9D9D9 0%, #FFF 100%) repeat scroll 0% 0% #FFF')
 		}
 	}
 }
 
-function addCssForGameboardMovement(moveCss, topMovement, leftMovement, movementRandomName, cssWebkit, negative, ffFix) {
+function addCssForGameboardMovement(moveCss, topMovement, leftMovement, movementRandomName, cssWebkit, negative) {
 
 	var cssRotate = 'transform: rotateX('
 	    cssScale = 'deg) scale('
@@ -277,9 +277,7 @@ function addCssForGameboardMovement(moveCss, topMovement, leftMovement, movement
 	cssScale + '0.7' + 
 	cssScaleZ + '0.7' + 
 	cssTop + topMovement + 
-	cssLeft + leftMovement + 'px;} }',0) +
-	// Firefox rotation color fix
-	ffFix
+	cssLeft + leftMovement + 'px;} }',0)
 }
 
 function rotateChipCss(chipColor, chipIds, moveCss, movementRandomName) {
@@ -289,7 +287,14 @@ function rotateChipCss(chipColor, chipIds, moveCss, movementRandomName) {
 		try {
 			addCssForRotationMovement(chipIds, moveCss, movementRandomName,
 					'-webkit-', '', chipPosition.top-3, chipPosition.left-10)
-		} catch (e) {}
+		} catch (e) {
+			addCssForRotationMovement(chipIds, moveCss, movementRandomName,
+					'', '', chipPosition.top-3, chipPosition.left-10)
+			setTimeout(function() {
+				$('.white .bottom').css('background', 'linear-gradient(to bottom, #D9D9D9 0%, #FFF 100%) repeat scroll 0% 0% #FFF')
+				$('.black .bottom').css('background', 'linear-gradient(to bottom, #000000 0%, #363636 100%) repeat scroll 0% 0% #FFF')
+			}, 500)
+		}
 	} else {
 		console.log('white chip')
 	}
