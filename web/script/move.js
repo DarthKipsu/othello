@@ -47,12 +47,13 @@ function placeAChip(targetCell, chipColor, player) {
 	updateAllScores(player) //score.js
 }
 
-function rotateChip(player, chipColor, newMoves) {i
+function rotateChip(player, chipColor, newMoves) {
+	console.log(gamegridArray)
 	var chipIds = []
 	for (var i=0; i<newMoves.rotatedChips.length; i++) {
+		console.log('gamegridArray', gamegridArray[newMoves.rotatedChips[i][1]])
 		chipIds.push(gamegridArray[newMoves.rotatedChips[i][0]][newMoves.rotatedChips[i][1]])
 	}
-	console.log('chipIDs:', chipIds, player, chipColor)
 
 	for (var i=0; i<chipIds.length; i++) {
 		var randomNumberForMovementName = new Date
@@ -62,15 +63,14 @@ function rotateChip(player, chipColor, newMoves) {i
 		var lastChild = $('#' + chipIds[i])
 		addAnimationToLastChild(lastChild, movementRandomName, ' 1s')
 
-		if (chipColor=="black") rotateABlackChip(chipIds, createTemporaryStyleForMove(), movementRandomName)
-		else rotateAWhiteChip(chipIds, createTemporaryStyleForMove(), movementRandomName)
+		rotateChipCss(chipColor, chipIds[i], createTemporaryStyleForMove(), movementRandomName)
 	}
 }
 
 function pushToGamegridArray(id, targetCell) {
 	var row = targetCell.selector.substring(23,24)-1
 	var col = targetCell.selector.substring(39,40)-1
-	gamegridArray[row][col] = id
+	gamegridArray[row][col] = [id, row, col]
 }
 
 /**
@@ -217,7 +217,7 @@ function highlightValidMoves(validPlacements) {
  * @param {number} movementRandomName - A random number to identify the CSS aniamtion from.
  */
 function moveChipToGameboard(chipColor, moveCss, topMovement, leftMovement, movementRandomName) {
-	var ffFix = $('.white .bottom').css('background', 'linear-gradient(to bottom, #D9D9D9 0%, #FFF 100%) repeat scroll 0% 0% #FFF')
+	//var ffFix = $('.white .bottom').css('background', 'linear-gradient(to bottom, #D9D9D9 0%, #FFF 100%) repeat scroll 0% 0% #FFF')
 	if (chipColor=='black') {
 		try {
 			addCssForGameboardMovement(moveCss, topMovement, leftMovement,
@@ -280,8 +280,51 @@ function addCssForGameboardMovement(moveCss, topMovement, leftMovement, movement
 	ffFix
 }
 
-/*function rotateABlackChip(chipIds, moveCss, movementRandomName) {
-	try {
-		moveCss.insertRule('@' + cWebkit + 'keyframes ' + movementRandomName + ' { from { ' + cWebkit + '' + cRotate + '90' + cScale + '0.7);} 50% {' + cWebkit + '' + cRotate + '0' + cScale + '0.7) scaleZ(0.7);} to {' + cWebkit + '' + cRotate + '-90' + cScale + '0.7) scaleZ(0.7);} }',0) 
-	} catch (e) {}
-}*/
+function rotateChipCss(chipColor, chipIds, moveCss, movementRandomName) {
+	console.log('rotation begin')
+	var chipPosition = getCoordinates($('#'+chipIds[0]), $('#gamegrid tr:nth-child(' + (chipIds[1]+1) + ') td:nth-child(' + (chipIds[2]+1) + ')'))
+	console.log("rotated cell coordinates", chipPosition)
+	if (chipColor=='black') {
+		try {
+			addCssForRotationMovement(chipIds, moveCss, movementRandomName,
+					'-webkit-', '', chipPosition.top-3, chipPosition.left-10)
+		} catch (e) {}
+
+		console.log('black chip')
+	} else {
+		console.log('white chip')
+	}
+}
+ function addCssForRotationMovement(chipIds, moveCss, movementRandomName, cssWebkit, negative, topPosition, leftPosition) {
+
+	 console.log('rotation addcss begin')
+
+	var cssRotate = 'transform: rotateX('
+	    cssScale = 'deg) scale('
+	    cssScaleZ = ') scaleZ('
+	    cssTop = '); position: absolute; top: '
+	    cssLeft = 'px; left: '
+
+	console.log('postion:', topPosition, leftPosition)
+
+	moveCss.insertRule('@' + cssWebkit + 'keyframes ' + 
+	movementRandomName + ' { from { ' + cssWebkit + '' + 
+	// 0%
+	cssRotate + negative + '-90' + 
+	cssScale + '0.7' +
+	cssScaleZ + '0.7' + 
+	cssTop + topPosition + 
+	cssLeft + leftPosition + 'px;} 50% {' + cssWebkit + 
+	// 50%
+	cssRotate + '0' + 
+	cssScale + '0.7' +
+	cssScaleZ + '0.7' + 
+	cssTop + topPosition + 
+	cssLeft + leftPosition + 'px;} to {' + cssWebkit + 
+	// 100%
+	cssRotate + negative + '90' + 
+	cssScale + '0.7' + 
+	cssScaleZ + '0.7' + 
+	cssTop + topPosition + 
+	cssLeft + leftPosition + 'px;} }',0)
+ }
