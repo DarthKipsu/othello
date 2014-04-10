@@ -48,10 +48,8 @@ function placeAChip(targetCell, chipColor, player) {
 }
 
 function rotateChip(player, chipColor, newMoves) {
-	console.log(gamegridArray)
 	var chipIds = []
 	for (var i=0; i<newMoves.rotatedChips.length; i++) {
-		console.log('gamegridArray', gamegridArray[newMoves.rotatedChips[i][1]])
 		chipIds.push(gamegridArray[newMoves.rotatedChips[i][0]][newMoves.rotatedChips[i][1]])
 	}
 
@@ -59,11 +57,13 @@ function rotateChip(player, chipColor, newMoves) {
 		var randomNumberForMovementName = new Date
 		var movementRandomName = 'rotate' + randomNumberForMovementName.getTime()
 
-		console.log($('#' + chipIds[i]))
 		var lastChild = $('#' + chipIds[i])
 		addAnimationToLastChild(lastChild, movementRandomName, ' 1s')
+		addClassesToLastChild(lastChild, chipColor)
 
 		rotateChipCss(chipColor, chipIds[i], createTemporaryStyleForMove(), movementRandomName)
+
+		updateAllScores(player) //score.js
 	}
 }
 
@@ -181,9 +181,11 @@ function flipPathCells(validPlacements, cell) {
 function flipPathMovement(validPlacements, cell) {
 	var path = flipPathCells(validPlacements, cell)
 	var movement = getCoordinates(path.beginning, path.end)
+
 	if ((movement.top < 0) || (movement.left < 0)) {
 		movement = getCoordinates(path.end, path.beginning)
 	}
+
 	return movement
 }
 
@@ -281,31 +283,24 @@ function addCssForGameboardMovement(moveCss, topMovement, leftMovement, movement
 }
 
 function rotateChipCss(chipColor, chipIds, moveCss, movementRandomName) {
-	console.log('rotation begin')
 	var chipPosition = getCoordinates($('#'+chipIds[0]), $('#gamegrid tr:nth-child(' + (chipIds[1]+1) + ') td:nth-child(' + (chipIds[2]+1) + ')'))
-	console.log("rotated cell coordinates", chipPosition)
+
 	if (chipColor=='black') {
 		try {
 			addCssForRotationMovement(chipIds, moveCss, movementRandomName,
 					'-webkit-', '', chipPosition.top-3, chipPosition.left-10)
 		} catch (e) {}
-
-		console.log('black chip')
 	} else {
 		console.log('white chip')
 	}
 }
  function addCssForRotationMovement(chipIds, moveCss, movementRandomName, cssWebkit, negative, topPosition, leftPosition) {
 
-	 console.log('rotation addcss begin')
-
 	var cssRotate = 'transform: rotateX('
 	    cssScale = 'deg) scale('
 	    cssScaleZ = ') scaleZ('
 	    cssTop = '); position: absolute; top: '
 	    cssLeft = 'px; left: '
-
-	console.log('postion:', topPosition, leftPosition)
 
 	moveCss.insertRule('@' + cssWebkit + 'keyframes ' + 
 	movementRandomName + ' { from { ' + cssWebkit + '' + 
