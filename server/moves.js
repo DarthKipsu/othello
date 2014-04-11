@@ -70,6 +70,11 @@ Gamegrid.prototype.validPlacements = function(player) {
 		if (valid) validPlacements.push(valid)
 	}
 
+	var validPlacementsStrings = validPlacements.map(JSON.stringify)
+	validPlacements = validPlacements.filter(function(element, index) {
+		return validPlacementsStrings.indexOf(JSON.stringify(element)) == index
+	})
+
 	return validPlacements
 }
 
