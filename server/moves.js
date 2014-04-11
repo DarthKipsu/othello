@@ -128,6 +128,10 @@ Gamegrid.prototype.findPlayerStraights = function(row, col, player) {
 	straights.push(this.findAStraight(row, col, player, 0, -1))
 	straights.push(this.findAStraight(row, col, player, 1, 0))
 	straights.push(this.findAStraight(row, col, player, -1, 0))
+	straights.push(this.findAStraight(row, col, player, 1, 1))
+	straights.push(this.findAStraight(row, col, player, 1, -1))
+	straights.push(this.findAStraight(row, col, player, -1, 1))
+	straights.push(this.findAStraight(row, col, player, -1, -1))
 	return straights.filter(function(element){return element != undefined})[0]
 }
 

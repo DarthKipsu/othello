@@ -27,3 +27,13 @@ describe("first turn", function() {
 		expect(gamegrid.gamegrid[4][3]).toBe('black')
 	})
 })
+
+describe("second turn", function() {
+	it("should give three valid placements for white player", function() {
+		var gamegrid = new moves.Gamegrid()
+		gamegrid.addNewChip('black', {emptyRow:4, emptyCol:2, playerRow:4, playerCol:4, rowOffset:0, colOffset:1})
+		var results = gamegrid.validPlacements('white')
+		console.log(results)
+		expect(results.length).toBe(3)
+	})
+})
