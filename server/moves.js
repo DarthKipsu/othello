@@ -110,6 +110,10 @@ Gamegrid.prototype.findPotentialPlacements = function(opponent) {
  */
 Gamegrid.prototype.emptyCellsAdjacentToOpponent = function(row, col) {
 	var potentialPlacements = []
+	if (this.gamegrid[row - 1][col - 1]==undefined) potentialPlacements.push([(row-1), (col-1)])
+	if (this.gamegrid[row - 1][col + 1]==undefined) potentialPlacements.push([(row-1), (col+1)])
+        if (this.gamegrid[row + 1][col - 1]==undefined) potentialPlacements.push([(row+1), (col-1)])
+	if (this.gamegrid[row + 1][col + 1]==undefined) potentialPlacements.push([(row+1), (col+1)])
 	if (this.gamegrid[row - 1][col]==undefined) potentialPlacements.push([(row - 1), col])
 	if (this.gamegrid[row + 1][col]==undefined) potentialPlacements.push([(row +  1), col])
         if (this.gamegrid[row][col - 1]==undefined) potentialPlacements.push([row, (col - 1)])
