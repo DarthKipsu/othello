@@ -159,12 +159,18 @@ function showFlipPath(validPlacements, cell) {
 
 	flipPath.style.left = (movement.startLeft+40) + 'px'
 	flipPath.style.top = (movement.startTop+40) + 'px'
-	if (movement.top < movement.left) {
+	console.log(movement.top, movement.left)
+	if (movement.top == 33) {
 		flipPath.style.width = Math.abs(movement.left-15) + 'px'
+	} else if (movement.top != 33 && movement.left != 24) {
+		var triangleSides = Math.pow(movement.left-15,2) + Math.pow(movement.top-25,2)
+		flipPath.style.width = Math.round(Math.sqrt(triangleSides)) + 'px'
+		flipPath.classList.add(flipPathRotation(movement))
 	} else flipPath.style.width = '1px'
-	if (movement.top > movement.left) {
+	if (movement.left == 24 && movement.top != 33) {
 		flipPath.style.height = Math.abs(movement.top-25) + 'px'
 	} else flipPath.style.height = '1px'
+	console.log(flipPath.style.height, flipPath.style.width)
 
 	document.body.appendChild(flipPath)
 }
@@ -187,6 +193,13 @@ function flipPathMovement(validPlacements, cell) {
 	}
 
 	return movement
+}
+
+function flipPathRotation(movement) {
+	if (movement.top < 0 && movement.left > 0) return 'flipPath-min45'
+	if (movement.top < 0 && movement.left < 0) return 'flipPath-plus45'
+	if (movement.top > 0 && movement.left > 0) return 'flipPath-plus45'
+	if (movement.top > 0 && movement.left < 0) return 'flipPath-plus135'
 }
 
 /**

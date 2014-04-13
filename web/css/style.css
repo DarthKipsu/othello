@@ -26,3 +26,24 @@ h1 {
 	background-color: #785814;
 	background-size: 16px 16px;
 }
+
+.flipPath-min45 {
+	-webkit-transform: rotate(-45deg);
+	-webkit-transform-origin: 0 0;
+	transform: rotate(-45deg);
+	transform-origin: 0 0;
+}
+
+.flipPath-plus45 {
+	-webkit-transform: rotate(45deg);
+	-webkit-transform-origin: 0 0;
+	transform: rotate(45deg);
+	transform-origin: 0 0;
+}
+
+.flipPath-plus135 {
+	-webkit-transform: rotate(135deg);
+	-webkit-transform-origin: 0 0;
+	transform: rotate(135deg);
+	transform-origin: 0 0;
+}
