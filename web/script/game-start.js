@@ -5,7 +5,7 @@ function createGame() {
 
 /**
  * Creates the popup div and it's contents.
- * @returns {div element} Div with game starting information.
+ * @returns {string} Div element with game starting information.
  */
 function popupDiv() {
 	var popupDiv = document.createElement('div')
@@ -21,7 +21,7 @@ function popupDiv() {
 
 /**
  * Creates the welcome text.
- * @param {div element} popupDiv - The div where the tect is appended into.
+ * @param {string} popupDiv - The div elementwhere the tect is appended into.
  */
 function createHeader2(popupDiv) {
 	var h2 = document.createElement('h2')
@@ -31,7 +31,7 @@ function createHeader2(popupDiv) {
 
 /**
  * Creates the instructions for starting a game.
- * @param {div element} popupDiv - The div where the tect is appended into.
+ * @param {string} popupDiv - The div element where the tect is appended into.
  */
 function createPopupInstructions(popupDiv) {
 	var p = document.createElement('p')
@@ -41,7 +41,7 @@ function createPopupInstructions(popupDiv) {
 
 /**
  * Creates the input where the game hash identificator goes.
- * @param {div element} popupDiv - The div where the tect is appended into.
+ * @param {string} popupDiv - The div element where the tect is appended into.
  */
 function createHashInput(popupDiv) {
 	var input = document.createElement('input')
@@ -53,7 +53,7 @@ function createHashInput(popupDiv) {
 
 /**
  * Create animation to show while waiting for the opponent.
- * @param {div element} popupDiv - The div where the tect is appended into.
+ * @param {string} popupDiv - The div element where the tect is appended into.
  * @todo Implement this function.
  */
 function createWaitingAnimation(popupDiv) {

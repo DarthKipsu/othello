@@ -1,6 +1,10 @@
 var crypto = require('crypto')
 var moves = require('./moves.js')
 
+/**
+ * Object containing all game rooms.
+ * @constant {Object}
+ */
 var rooms = {}
 
 /**
@@ -80,6 +84,12 @@ function startGame(io, hash) {
 	}
 }
 
+/**
+ * Sen players information in the end of a turn (to begin a new one.)
+ * @param {io} io
+ * @param {string} hash - The room identificator.
+ * @returns {function} Function to emit turn changes and new turn valid movements.
+ */
 function endTurn(io, socket) {
 	return function(player, coordinates, hash) {
 		newPlayer = player=='black'?'white':'black'

@@ -1,3 +1,7 @@
+/**
+ * An array containing information where chips are located on the gamegrid.
+ * @constant {Array}
+ */
 var gamegridArray = new Array(8)
 for (var i=0; i<8; i++) {
 	gamegridArray[i] = new Array(8)
@@ -35,7 +39,7 @@ function addPlayerResources(player, opponent) {
 /**
  * Creates gameboard chipslots for both player and the opponent.
  * @param {string} player - Either player or opponent.
- * @returns {div element} Chipslot div element.
+ * @returns {string} Chipslot div element.
  */
 function createChipSlot (player) {
 	var slot = document.createElement('div');
@@ -46,7 +50,7 @@ function createChipSlot (player) {
 
 /**
  * Creates the grid in the middle of the gameboard.
- * @returns {table element} Table used as the gamegrid.
+ * @returns {string} Table element used as the gamegrid.
  */
 function createGamegrid() {
 	var gamegrid = document.createElement('table');
@@ -57,7 +61,7 @@ function createGamegrid() {
 
 /**
  * Adds 8 rows to gameboard's gamegrid.
- * @param {table element} gamegrid - The gamegrid table element.
+ * @param {string} gamegrid - The gamegrid table element.
  */
 function addRowsToGamegrid(gamegrid) {
 	for (var i=1; i<9; i++) {
@@ -69,7 +73,7 @@ function addRowsToGamegrid(gamegrid) {
 
 /**
  * Adds 8 colums to gamegrid's row.
- * @param {row element} row - Row belonging into gamegrid table.
+ * @param {string} row - Row element belonging into gamegrid table.
  * @param {number} number - Identifying which row the columns are added into.
  */
 function addColumnsToGamegridRows(row, number) {
