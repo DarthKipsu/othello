@@ -38,11 +38,11 @@ Gamegrid.prototype.addNewChip = function(player, coord) {
 	var newMoves
 	var checkValidity = this.findPlayerStraights(coord.emptyRow, coord.emptyCol, player)
 	if (checkValidity) {
-		var affectedCellCount = coord.emptyRow-coord.playerRow
-		if (affectedCellCount == 0) {
-			affectedCellCount = coord.emptyCol-coord.playerCol
+		for (var i=0; i<checkValidity.playerRow.length; i++) {
+			affectedCellCount = coord.emptyRow-checkValidity.playerRow[i]
+			if (affectedCellCount==0) affectedCellCount = coord.emptyCol-checkValidity.playerCol[i]
+			newMoves = this.changeChipColor(Math.abs(affectedCellCount)+1, player, checkValidity, i)
 		}
-		newMoves = this.changeChipColor(Math.abs(affectedCellCount)+1, player, coord)
 	}
 	return newMoves
 }
@@ -55,12 +55,12 @@ Gamegrid.prototype.addNewChip = function(player, coord) {
  * @param {Object} coord - Object containing information which move the player made.
  * @returns {object} Object containing newChip: new chip added, rotatedChips: rotated chips.
  */
-Gamegrid.prototype.changeChipColor = function(affectedCellCount, player, coord) {
+Gamegrid.prototype.changeChipColor = function(affectedCellCount, player, coord, index) {
 	var newChip = []
 	var rotatedChips = []
 	for (var i=0; i<affectedCellCount; i++) {
-		var row = coord.emptyRow + coord.rowOffset*i
-		var col = coord.emptyCol + coord.colOffset*i
+		var row = coord.emptyRow + coord.rowDirection[index]*i
+		var col = coord.emptyCol + coord.colDirection[index]*i
 		var chipColor = this.gamegrid[row][col]
 		if (chipColor==undefined) {
 			newChip.push(row, col)
@@ -152,44 +152,36 @@ Gamegrid.prototype.emptyCellsAdjacentToOpponent = function(row, col) {
  * @param {number} row - The row with empty cell.
  * @param {number} col - The column with empty cell.
  * @param {string} player - Color of the player whose turn it is.
- * @returns {array} Array containing objects with possible placement info.
+ * @returns {Object} Object with coordinates to the possible placements and produced straights.
  */
 Gamegrid.prototype.findPlayerStraights = function(row, col, player) {
-	var straights = []
-	straights.push(this.findAStraight(row, col, player, 0, 1))
-	straights.push(this.findAStraight(row, col, player, 0, -1))
-	straights.push(this.findAStraight(row, col, player, 1, 0))
-	straights.push(this.findAStraight(row, col, player, -1, 0))
-	straights.push(this.findAStraight(row, col, player, 1, 1))
-	straights.push(this.findAStraight(row, col, player, 1, -1))
-	straights.push(this.findAStraight(row, col, player, -1, 1))
-	straights.push(this.findAStraight(row, col, player, -1, -1))
-	return straights.filter(function(element){return element != undefined})[0]
-}
-
-/**
- * Collect all the needed information to make a player turn, into an object.
- * @function findAStraight
- * @param {number} row - The orw with empty cell.
- * @param {number} col - The column with empty cell.
- * @param {string} player - Color of the player whose turn it is.
- * @param {number} rowOffset - Horizonal movement direction, 0, 1 or -1
- * @param {number} colOffset - Vertical movement direction, 0, 1 or -1
- * @returns {Object} Object containing empty cell position, player cell position and direction of movement to get between them.
- */
-Gamegrid.prototype.findAStraight = function(row, col, player, rowOffset, colOffset) {
-	for (var i=1; i<8; i++) {
-		if (this.gamegrid[row + rowOffset*i][col + colOffset*i]==undefined) break
-		else if (this.gamegrid[row + rowOffset][col + colOffset]==player) break
-		else if (this.gamegrid[row + rowOffset*i][col + colOffset*i]==player) return {
-			emptyRow: row,
-			emptyCol: col,
-			playerRow: row + rowOffset*i,
-			playerCol: col + colOffset*i,
-			rowOffset: rowOffset,
-			colOffset: colOffset
+	var direction = [[0,1],[0,-1],[1,0],[1,1],[1,-1],[-1,0],[-1,1],[-1,-1]]
+	var straight = {
+		emptyRow: row,
+		emptyCol: col,
+		playerRow: [],
+		playerCol: [],
+		rowDirection: [],
+		colDirection: []
+	}
+	
+	for (var i=0; i<direction.length; i++) {
+		for (var j=1; j<8; j++) {
+			var rowOffset = row + direction[i][0]*j
+			    colOffset = col + direction[i][1]*j
+			if (this.gamegrid[rowOffset][colOffset]==undefined) break
+			else if (this.gamegrid[row + direction[i][0]][col + direction[i][1]]==player) break
+			else if (this.gamegrid[rowOffset][colOffset]==player) {
+				straight.playerRow.push(rowOffset)
+				straight.playerCol.push(colOffset)
+				straight.rowDirection.push(direction[i][0])
+				straight.colDirection.push(direction[i][1])
+			}
 		}
 	}
+
+	if (straight.playerRow.length!=0) return straight
+	else return
 }
 
 exports.Gamegrid = Gamegrid
