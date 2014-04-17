@@ -180,6 +180,7 @@ Gamegrid.prototype.findPlayerStraights = function(row, col, player) {
 				straight.playerCol.push(colOffset)
 				straight.rowDirection.push(direction[i][0])
 				straight.colDirection.push(direction[i][1])
+				break
 			}
 		}
 	}
