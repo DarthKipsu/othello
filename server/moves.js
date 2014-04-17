@@ -35,16 +35,20 @@ Gamegrid.prototype.makeMove = function(player, coordinates) {
  * @returns {function} changeChipColor, that returns object containing new move and rotations.
  */
 Gamegrid.prototype.addNewChip = function(player, coord) {
-	var newMoves
+	var newChip = []
+	var rotatedChips = []
 	var checkValidity = this.findPlayerStraights(coord.emptyRow, coord.emptyCol, player)
 	if (checkValidity) {
 		for (var i=0; i<checkValidity.playerRow.length; i++) {
 			affectedCellCount = coord.emptyRow-checkValidity.playerRow[i]
 			if (affectedCellCount==0) affectedCellCount = coord.emptyCol-checkValidity.playerCol[i]
-			newMoves = this.changeChipColor(Math.abs(affectedCellCount)+1, player, checkValidity, i)
+			var newMoves = this.changeChipColor(Math.abs(affectedCellCount)+1, player, checkValidity, i)
+			if (newChip.length==0) newChip.push(newMoves.newChip)
+			rotatedChips.push(newMoves.rotatedChips[0])
 		}
 	}
-	return newMoves
+	console.log('newMoves', {newChip:newChip[0], rotatedChips:rotatedChips})
+	return {newChip:newChip[0], rotatedChips:rotatedChips}
 }
 
 /**

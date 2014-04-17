@@ -21,7 +21,6 @@ $(document).ready(function() {
 		first4Chips(playerColor) //move.js
 		setTimeout(function() {
 			beginTurns(playerColor) //script.js
-			console.log(validPlacements)
 			if (playerColor=='black') showTurnFunctions(validPlacements, 'black') //move.js
 
 			$('.valid, .black-highlight').click(function() {
@@ -44,7 +43,7 @@ $(document).ready(function() {
 			showTurnFunctions(validPlacements, turn)
 		}
 
-		var targetCell = $('#gamegrid tr:nth-child(' + (newMoves.newChip[0] + 1) +
+		var targetCell = $('#gamegrid tr:nth-child(' + (newMoves.newChip[0]+1) +
 			') td:nth-child(' + (newMoves.newChip[1]+1) + ')')
 		placeAChip(targetCell, previousTurn, playerColor)
 		rotateChip(playerColor, previousTurn, newMoves)
@@ -58,6 +57,5 @@ $(document).ready(function() {
 		})
 
 		console.log('new turn', playerColor, newMoves, hash, turn)
-		console.log(gamegridArray)
 	})
 })

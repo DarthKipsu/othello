@@ -168,19 +168,21 @@ function showFlipPath(validPlacements, cell) {
 	/** @function createFlipPath */
 	var flipPath = createFlipPath(movement)
 
-	if (movement.top == 33) {
-		flipPath.style.width = Math.abs(movement.left-15) + 'px'
-	} else if (movement.top != 33 && movement.left != 24) {
-		var triangleSides = Math.pow(movement.left-15,2) + Math.pow(movement.top-25,2)
-		flipPath.style.width = Math.round(Math.sqrt(triangleSides)) + 'px'
-		/** @function flipPathRotation */
-		flipPath.classList.add(flipPathRotation(movement))
-	} else flipPath.style.width = '1px'
-	if (movement.left == 24 && movement.top != 33) {
-		flipPath.style.height = Math.abs(movement.top-25) + 'px'
-	} else flipPath.style.height = '1px'
+	for (var i=0; i<movement.length; i++) {
+		if (movement[i].top == 33) {
+			flipPath[i].style.width = Math.abs(movement[i].left-15) + 'px'
+		} else if (movement[i].top != 33 && movement[i].left != 24) {
+			var triangleSides = Math.pow(movement[i].left-15,2) + Math.pow(movement[i].top-25,2)
+			flipPath[i].style.width = Math.round(Math.sqrt(triangleSides)) + 'px'
+			/** @function flipPathRotation */
+			flipPath[i].classList.add(flipPathRotation(movement[i]))
+		} else flipPath[i].style.width = '1px'
+		if (movement[i].left == 24 && movement[i].top != 33) {
+			flipPath[i].style.height = Math.abs(movement[i].top-25) + 'px'
+		} else flipPath[i].style.height = '1px'
 
-	document.body.appendChild(flipPath)
+		document.body.appendChild(flipPath[i])
+	}
 }
 
 /**
@@ -189,12 +191,16 @@ function showFlipPath(validPlacements, cell) {
  * @returns {string} Div element containing the starting position of the path.
  */
 function createFlipPath(movement) {
-	var flipPath = document.createElement('div')
-	flipPath.classList.add('flipPath')
+	var flipPathArray = []
+	for (var i=0; i<movement.length; i++) {
+		var flipPath = document.createElement('div')
+		flipPath.classList.add('flipPath')
 
-	flipPath.style.left = (movement.startLeft+40) + 'px'
-	flipPath.style.top = (movement.startTop+40) + 'px'
-	return flipPath
+		flipPath.style.left = (movement[i].startLeft+40) + 'px'
+		flipPath.style.top = (movement[i].startTop+40) + 'px'
+		flipPathArray.push(flipPath)
+	}
+	return flipPathArray
 }
 
 /**
@@ -206,10 +212,14 @@ function createFlipPath(movement) {
 function flipPathMovement(validPlacements, cell) {
 	/** @function flipPathCells */
 	var path = flipPathCells(validPlacements, cell)
-	var movement = getCoordinates(path.beginning, path.end)
+	var movement = []
+	for (var i=0; i<path.end.length; i++) {
+		var tempMovement = getCoordinates(path.beginning, path.end[i])
 
-	if ((movement.top < 0) || (movement.left < 0)) {
-		movement = getCoordinates(path.end, path.beginning)
+		if ((tempMovement.top < 0) || (tempMovement.left < 0)) {
+			tempMovement = getCoordinates(path.end[i], path.beginning)
+		}
+		movement.push(tempMovement)
 	}
 
 	return movement
@@ -223,10 +233,15 @@ function flipPathMovement(validPlacements, cell) {
  */
 function flipPathCells(validPlacements, cell) {
 	var thisID = getCellPosition(cell)
-	var flipPathBeginning = $('#gamegrid tr:nth-child('+(validPlacements[thisID].emptyRow+1) +
-		') td:nth-child('+ (validPlacements[thisID].emptyCol+1) +')')
-	var flipPathEnd = $('#gamegrid tr:nth-child('+ (validPlacements[thisID].playerRow+1) +
-		') td:nth-child('+ (validPlacements[thisID].playerCol+1) +')')
+	var flipPathBeginning = $('#gamegrid tr:nth-child('+
+		(validPlacements[thisID].emptyRow+1) + ') td:nth-child('+
+		(validPlacements[thisID].emptyCol+1) +')')
+	var flipPathEnd = []
+	for (var i=0; i<validPlacements[thisID].playerRow.length; i++) {
+		flipPathEnd.push($('#gamegrid tr:nth-child('+
+				(validPlacements[thisID].playerRow[i]+1) +') td:nth-child('+
+				(validPlacements[thisID].playerCol[i]+1) +')'))
+	}
 	return {beginning:flipPathBeginning, end:flipPathEnd}
 }
 
