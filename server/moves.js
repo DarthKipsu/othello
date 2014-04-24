@@ -139,14 +139,14 @@ Gamegrid.prototype.findPotentialPlacements = function(opponent) {
  */
 Gamegrid.prototype.emptyCellsAdjacentToOpponent = function(row, col) {
 	var potentialPlacements = []
-	if (this.gamegrid[row - 1][col - 1]==undefined) potentialPlacements.push([(row-1), (col-1)])
-	if (this.gamegrid[row - 1][col + 1]==undefined) potentialPlacements.push([(row-1), (col+1)])
-	if (this.gamegrid[row - 1][col]==undefined) potentialPlacements.push([(row - 1), col])
-        if (this.gamegrid[row + 1][col - 1]==undefined) potentialPlacements.push([(row+1), (col-1)])
-	if (this.gamegrid[row + 1][col + 1]==undefined) potentialPlacements.push([(row+1), (col+1)])
-	if (this.gamegrid[row + 1][col]==undefined) potentialPlacements.push([(row +  1), col])
-        if (this.gamegrid[row][col - 1]==undefined) potentialPlacements.push([row, (col - 1)])
-	if (this.gamegrid[row][col + 1]==undefined) potentialPlacements.push([row, (col + 1)])
+	if ((row>0 && col>0) && (this.gamegrid[row - 1][col - 1]==undefined)) potentialPlacements.push([(row-1), (col-1)])
+	if ((row>0 && col<7) && (this.gamegrid[row - 1][col + 1]==undefined)) potentialPlacements.push([(row-1), (col+1)])
+	if ((row>0) && (this.gamegrid[row - 1][col]==undefined)) potentialPlacements.push([(row - 1), col])
+        if ((row<7 && col>0) && (this.gamegrid[row + 1][col - 1]==undefined)) potentialPlacements.push([(row+1), (col-1)])
+	if ((row<7 && col<7) && (this.gamegrid[row + 1][col + 1]==undefined)) potentialPlacements.push([(row+1), (col+1)])
+	if ((row<7) && (this.gamegrid[row + 1][col]==undefined)) potentialPlacements.push([(row +  1), col])
+        if ((col>0) && (this.gamegrid[row][col - 1]==undefined)) potentialPlacements.push([row, (col - 1)])
+	if ((col<7) && (this.gamegrid[row][col + 1]==undefined)) potentialPlacements.push([row, (col + 1)])
 	return potentialPlacements
 }
 
