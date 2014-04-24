@@ -141,9 +141,9 @@ Gamegrid.prototype.emptyCellsAdjacentToOpponent = function(row, col) {
 	var potentialPlacements = []
 	if (this.gamegrid[row - 1][col - 1]==undefined) potentialPlacements.push([(row-1), (col-1)])
 	if (this.gamegrid[row - 1][col + 1]==undefined) potentialPlacements.push([(row-1), (col+1)])
+	if (this.gamegrid[row - 1][col]==undefined) potentialPlacements.push([(row - 1), col])
         if (this.gamegrid[row + 1][col - 1]==undefined) potentialPlacements.push([(row+1), (col-1)])
 	if (this.gamegrid[row + 1][col + 1]==undefined) potentialPlacements.push([(row+1), (col+1)])
-	if (this.gamegrid[row - 1][col]==undefined) potentialPlacements.push([(row - 1), col])
 	if (this.gamegrid[row + 1][col]==undefined) potentialPlacements.push([(row +  1), col])
         if (this.gamegrid[row][col - 1]==undefined) potentialPlacements.push([row, (col - 1)])
 	if (this.gamegrid[row][col + 1]==undefined) potentialPlacements.push([row, (col + 1)])
@@ -173,7 +173,8 @@ Gamegrid.prototype.findPlayerStraights = function(row, col, player) {
 		for (var j=1; j<8; j++) {
 			var rowOffset = row + direction[i][0]*j
 			    colOffset = col + direction[i][1]*j
-			if (this.gamegrid[rowOffset][colOffset]==undefined) break
+			if (rowOffset<0 || rowOffset>7 || colOffset<0 || colOffset>7) break
+			else if (this.gamegrid[rowOffset][colOffset]==undefined) break
 			else if (this.gamegrid[row + direction[i][0]][col + direction[i][1]]==player) break
 			else if (this.gamegrid[rowOffset][colOffset]==player) {
 				straight.playerRow.push(rowOffset)
