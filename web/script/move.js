@@ -264,7 +264,8 @@ function flipPathRotation(movement) {
  */
 function getCellPosition(cell) {
 		var thisValidClass = cell.classList[1]
-		return parseInt(thisValidClass.substring(1,2))
+		if (thisValidClass.length==2) return parseInt(thisValidClass.substring(1,2))
+		else return parseInt(thisValidClass.substring(1,3))
 }
 
 /**
