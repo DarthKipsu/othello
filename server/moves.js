@@ -40,14 +40,15 @@ Gamegrid.prototype.addNewChip = function(player, coord) {
 	var checkValidity = this.findPlayerStraights(coord.emptyRow, coord.emptyCol, player)
 	if (checkValidity) {
 		for (var i=0; i<checkValidity.playerRow.length; i++) {
-			affectedCellCount = coord.emptyRow-checkValidity.playerRow[i]
+			affectedCellCount = checkValidity.emptyRow-checkValidity.playerRow[i]
 			if (affectedCellCount==0) affectedCellCount = coord.emptyCol-checkValidity.playerCol[i]
 			var newMoves = this.changeChipColor(Math.abs(affectedCellCount)+1, player, checkValidity, i)
 			if (newChip.length==0) newChip.push(newMoves.newChip)
-			rotatedChips.push(newMoves.rotatedChips[0])
+			for (var j=0; j<newMoves.rotatedChips.length; j++) {
+				rotatedChips.push(newMoves.rotatedChips[j])
+			}
 		}
 	}
-	console.log('newMoves', {newChip:newChip[0], rotatedChips:rotatedChips})
 	return {newChip:newChip[0], rotatedChips:rotatedChips}
 }
 
