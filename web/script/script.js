@@ -16,7 +16,12 @@ function beginTurns(player) {
 
 function changeTurn(player) {
 	if ((player == 'black') && (turn == 'white')) $('#turn-marker').html('White players turn, waiting...')
-	else if ((player == 'black') && (turn == 'black')) $('#turn-marker').html('Your turn!')
 	else if ((player == 'white') && (turn == 'black')) $('#turn-marker').html('Black players turn, waiting...')
 	else $('#turn-marker').html('Your turn!')
+}
+
+function continueTurn(player) {
+	if ((player == 'black') && (turn == 'white')) $('#turn-marker').html('White player made a move. You have no moves available. White players turn again, waiting...')
+	else if ((player == 'white') && (turn == 'black')) $('#turn-maker').html('Black player made a move. You have no moves available. Black players turn again, waiting...')
+	else $('#turn-marker').html('No moves for the opponent, your move again!')
 }

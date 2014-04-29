@@ -95,12 +95,19 @@ function endTurn(io, socket) {
 		newPlayer = player=='black'?'white':'black'
 		var makeMove = rooms[hash].gamegrid.makeMove(player, coordinates)
 		var validPlacements = rooms[hash].gamegrid.validPlacements(newPlayer)
+		console.log('VALID', validPlacements)
 		for (var i=0; i<2; i++) {
-			console.log('room:', rooms[hash][i])
 			var clientId = rooms[hash][i].clientId
 			var playerColor = rooms[hash][i].player
-			io.sockets.socket(clientId).emit('new turn', playerColor, player, 
-				makeMove, validPlacements, hash) //moves.js
+			if (validPlacements.length!=0) {
+				io.sockets.socket(clientId).emit('new turn', playerColor, player, 
+					makeMove, validPlacements, hash) //moves.js
+			} else if (rooms[hash].gamegrid.validPlacements(player).length!=0) {
+				io.sockets.socket(clientId).emit('continue turn', playerColor,
+					player, makeMove, 
+					rooms[hash].gamegrid.validPlacements(player), hash)
+			} else io.sockets.socket(clientId).emit('end of game', playerColor, 
+					player, makeMove, hash)
 		}
 	}
 }

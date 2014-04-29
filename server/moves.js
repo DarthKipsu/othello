@@ -79,6 +79,19 @@ Gamegrid.prototype.changeChipColor = function(affectedCellCount, player, coord, 
 }
 
 /**
+ * See if gamegrid is full.
+ * @returns {string} 'continue' if gamegrid isn't full, 'end of game' if it is.
+ */
+Gamegrid.prototype.gameEnding = function() {
+	for (var i=0; i<8; i++) {
+		for (var j=0; j<8; j++) {
+			if (this.gamegrid[i][j]==undefined) return 'continue'
+		}
+	}
+	return 'end of game'
+}
+
+/**
  * Finds valid placements for the next turn.
  * @function validPlacements
  * @this {Gamegrid}
