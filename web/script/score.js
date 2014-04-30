@@ -31,3 +31,14 @@ function scoreCalculation(player, scoreboard) {
 	    }
 	return chipsOnGameboard.length
 }
+
+/**
+ * Compare scores to deduce the winner of the game.
+ * @returns {array} Contains the color of the winner, winner score and opponent score.
+ */
+function compareScores() {
+	var white = scoreCalculation('white', 'player')
+	var black = scoreCalculation('black', 'player')
+	if (white>black) return ['white', white, black]
+	else return ['black', black, white]
+}

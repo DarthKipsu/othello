@@ -88,6 +88,15 @@ $(document).ready(function() {
 		placeAChip(targetCell, previousTurn, playerColor) //move.js
 		rotateChip(playerColor, previousTurn, newMoves) //move.js
 
+		endGame(playerColor) //game-end.js
+		$('#exits span:nth-child(1)').click(function() {
+			window.location.hash=""
+			document.location.reload(true)
+		})
+		$('#exits span:nth-child(2)').click(function() {
+			$('#game-end').hide()
+		})
+
 	})
 
 })
