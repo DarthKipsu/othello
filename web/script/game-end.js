@@ -6,6 +6,8 @@ function endGame(player) {
 
 /**
  * Creates the popup div and it's contents.
+ * @param {string} player - player viewing the item.
+ * @param {array} winner - array containing winner color, winner score and opponent score.
  * @returns {string} Div element with game starting information.
  */
 function endDiv(player, winner) {
@@ -22,6 +24,8 @@ function endDiv(player, winner) {
 /**
  * Creates the winner announcement.
  * @param {string} popupDiv - The div elementwhere the tect is appended into.
+ * @param {string} player - player viewing the item.
+ * @param {array} winner - array containing winner color, winner score and opponent score.
  */
 function createEndHeader2(popupDiv, player, winner) {
 	var h2 = document.createElement('h2')
@@ -38,6 +42,8 @@ function createEndHeader2(popupDiv, player, winner) {
 /**
  * Creates the score display.
  * @param {string} popupDiv - The div element where the tect is appended into.
+ * @param {string} player - player viewing the item.
+ * @param {array} winner - array containing winner color, winner score and opponent score.
  */
 function createEndScore(popupDiv, player, winner) {
 	var p = document.createElement('p')
