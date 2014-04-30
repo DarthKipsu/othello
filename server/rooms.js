@@ -44,11 +44,14 @@ function joinRoom(io, socket) {
 		socket.leave(oldRoom)
 		socket.join(hash)
 		if (io.sockets.clients(hash).length == 1) {
-			rooms[hash] = []
-			addPlayerObjectToRoom(socket, hash, 'black')
+			rooms[hash] = {
+				black: socket.id,
+				white: null,
+				gamegrid: new moves.Gamegrid()
+			}
 		}
 		if (io.sockets.clients(hash).length == 2) {
-			addPlayerObjectToRoom(socket, hash, 'white')
+			rooms[hash].white = socket.id
 			startGame(io, hash)
 		}
 	}
@@ -57,35 +60,17 @@ function joinRoom(io, socket) {
 exports.joinRoom = joinRoom
 
 /**
- * Adds the player to a room as an object for identification.
- * @param {socket} socket
- * @param {string} hash - The room identificator.
- * @param {string} playerColor - Color of the player being added.
- */
-function addPlayerObjectToRoom(socket, hash, playerColor) {
-	rooms[hash].push({
-		clientId: socket.id,
-		player: playerColor
-	})
-}
-
-/**
  * Send a message for both players to begin the game.
  * @param {io} io
  * @param {string} hash - The room identificator.
  */
 function startGame(io, hash) {
-	rooms[hash].gamegrid = new moves.Gamegrid()
-	for (var i=0; i<2; i++) {
-		var clientId = rooms[hash][i].clientId
-		var playerColor = rooms[hash][i].player
-		io.sockets.socket(clientId).emit('start game', playerColor,
-			rooms[hash].gamegrid.validPlacements('black'), hash) //moves.js
-	}
+	io.sockets.socket(rooms[hash].black).emit('start game', 'black', rooms[hash].gamegrid.validPlacements('black'), hash) //moves.js
+	io.sockets.socket(rooms[hash].white).emit('start game', 'white', rooms[hash].gamegrid.validPlacements('black'), hash) //moves.js
 }
 
 /**
- * Sen players information in the end of a turn (to begin a new one.)
+ * Send players information in the end of a turn (to begin a new one.)
  * @param {io} io
  * @param {string} hash - The room identificator.
  * @returns {function} Function to emit turn changes and new turn valid movements.
@@ -95,21 +80,33 @@ function endTurn(io, socket) {
 		newPlayer = player=='black'?'white':'black'
 		var makeMove = rooms[hash].gamegrid.makeMove(player, coordinates)
 		var validPlacements = rooms[hash].gamegrid.validPlacements(newPlayer)
-		console.log('VALID', validPlacements)
-		for (var i=0; i<2; i++) {
-			var clientId = rooms[hash][i].clientId
-			var playerColor = rooms[hash][i].player
-			if (validPlacements.length!=0) {
-				io.sockets.socket(clientId).emit('new turn', playerColor, player, 
-					makeMove, validPlacements, hash) //moves.js
-			} else if (rooms[hash].gamegrid.validPlacements(player).length!=0) {
-				io.sockets.socket(clientId).emit('continue turn', playerColor,
-					player, makeMove, 
-					rooms[hash].gamegrid.validPlacements(player), hash)
-			} else io.sockets.socket(clientId).emit('end of game', playerColor, 
-					player, makeMove, hash)
+
+		if (validPlacements.length!=0) {
+			emitTurnChange(io, socket, player, 'black', newPlayer, makeMove, hash)
+			emitTurnChange(io, socket, player, 'white', newPlayer, makeMove, hash)
+		} else if (rooms[hash].gamegrid.validPlacements(player).length!=0) {
+			emitTurnChange(io, socket, player, 'black', player, makeMove, hash)
+			emitTurnChange(io, socket, player, 'white', player, makeMove, hash)
+		} else {
+			io.sockets.socket(rooms[hash].black).emit('end of game', 'black', 
+				player, makeMove, hash)
+			io.sockets.socket(rooms[hash].white).emit('end of game', 'white', 
+				player, makeMove, hash)
 		}
 	}
 }
 
 exports.endTurn = endTurn
+
+function emitTurnChange(io, socket, player, color, nextTurn, makeMove, hash) {
+	io.sockets.socket(rooms[hash][color]).emit('new turn', color, player, makeMove,
+		rooms[hash].gamegrid.validPlacements(nextTurn), hash)
+}
+
+function leaveRoom(io, socket, hash) {
+	return function() {
+		socket.broadcast.to(hash).emit('user left', {user: 'userLeaving'})
+	}
+}
+
+exports.leaveRoom = leaveRoom
