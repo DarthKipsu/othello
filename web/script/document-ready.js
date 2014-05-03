@@ -103,4 +103,8 @@ $(document).ready(function() {
 		console.log('user left', userLeaving.user)
 	})
 
+	socket.on("user reconnected", function(userConnecting) {
+		console.log('user reconnected', userConnecting.user)
+	})
+
 })
