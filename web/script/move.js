@@ -362,6 +362,69 @@ function rotateFirefoxFix(chipIds) {
 	}, 500)
 }
 
+function placeChipsAfterDisco(chipColors, savedGamegridArray) {
+	gamegridArray = savedGamegridArray
+	for (var i=0; i<8; i++) {
+		for (var j=0; j<8; j++) {
+			if (gamegridArray[i][j]!=undefined) {
+				var randomNumberForMovementName = new Date
+				var movementRandomName = 'disco' + randomNumberForMovementName.getTime()
+				var lastChild = document.querySelectorAll('#' + gamegridArray[i][j][0])
+				var targetCell = $('#gamegrid tr:nth-child(' + (gamegridArray[i][j][1]+1) + ') td:nth-child(' + (gamegridArray[i][j][2]+1) + ')')
+				var movement = getCoordinates(lastChild, targetCell)
+				console.log('movement', movement, lastChild)
+
+				addAnimationToLastChild(lastChild, movementRandomName, ' 0.5s')
+				addClassesToLastChild(lastChild, chipColors[i][j])
+				moveDiscoChips(chipColors[i][j], gamegridArray[i][j][0], createTemporaryStyleForMove(), movement.top, movement.left, movementRandomName)
+			}
+		}
+	}
+}
+
+function moveDiscoChips(chipColor, chipId, moveCss, topMovement, leftMovement, movementRandomName) {
+	try {
+		if (chipColor=='black') {
+			addCssForDiscoMovement(moveCss, topMovement, leftMovement,
+				movementRandomName, '-webkit-', '')
+		} else {
+			addCssForDiscoMovement(moveCss, topMovement, leftMovement,
+				movementRandomName, '-webkit-', '-')
+		}
+	} catch (e) {
+		if (chipColor=='black') {
+			addCssForDiscoMovement(moveCss, topMovement, leftMovement,
+				movementRandomName, '', '')
+		} else {
+			addCssForDiscoMovement(moveCss, topMovement, leftMovement,
+				movementRandomName, '', '-')
+		}
+	}
+}
+
+function addCssForDiscoMovement(moveCss, topMovement, leftMovement, movementRandomName, cssWebkit, negative) {
+	
+	var cssRotate = 'transform: rotateX('
+	    cssScale = 'deg) scale('
+	    cssScaleZ = ') scaleZ('
+	    cssTop = '); position: absolute; top: '
+	    cssLeft = 'px; left: '
+
+	moveCss.insertRule('@' + cssWebkit + 'keyframes ' +
+	movementRandomName + ' { from { ' + cssWebkit +
+	// 0%
+	cssRotate + '8' +
+	cssScale + '0.8, 0.8' +
+	cssTop + '0' +
+	cssLeft + '0px;} to {' + cssWebkit +
+	// 100%
+	cssRotate + negative + '90' +
+	cssScale + '0.7' + 
+	cssScaleZ + '0.7' +
+	cssTop + topMovement +
+	cssLeft + leftMovement + 'px;} }',0)
+}
+
 /**
  * Inserts css transform tion rules to the temporarily created movement stylesheet.
  * @param {stylesheet} moveCss - Stylesheet created temporarily for the animation.

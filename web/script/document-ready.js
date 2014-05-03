@@ -99,21 +99,42 @@ $(document).ready(function() {
 
 	})
 
-	socket.on("user left", function(userLeaving) {
-		console.log('user left', userLeaving.user)
+	socket.on("user left", function(userLeaving, hash) {
+		console.log('user left', userLeaving)
 		
 		userLeft(userLeaving) //disconnect.js
 
 		$('.valid').unbind().empty().removeClass()
 		$('.flipPath').remove()
 		$('#disconnect-address').val(window.location.href)
+		socket.emit('gamegridArray', gamegridArray, turn, hash)
 
 	})
 
-	socket.on("user reconnected", function(userConnecting) {
-		console.log('user reconnected', userConnecting.user)
+	socket.on("user reconnected", function(playerColor, userConnecting, validBlack, validWhite, savedGamegridArray, chipColors, savedTurn, hash) {
+		console.log('user reconnected', userConnecting)
+		turn = savedTurn
 
 		$('#disconnect').hide()
+		var validPlacements = turn=='black'?validBlack:validWhite
+
+		if (playerColor==userConnecting) {
+			callForChips(playerColor)
+			placeChipsAfterDisco(chipColors, savedGamegridArray) //move.js
+			if (turn==userConnecting) {
+				showTurnFunctions(validPlacements, turn) //move.js
+			}
+		} else {
+			if (turn==playerColor) {
+				showTurnFunctions(validPlacements, turn) //move.js
+			}
+		}
+
+		$('.valid, .black-highlight, .white-highlight').click(function() {
+			var thisID = getCellPosition(this) //move.js
+			var thisCoordinates = validPlacements[thisID]
+			socket.emit('turn end', playerColor, thisCoordinates, hash)
+		})
 	})
 
 })

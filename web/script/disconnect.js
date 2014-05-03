@@ -1,5 +1,9 @@
 function userLeft(userLeaving) {
-	document.body.appendChild(popupDisconnect())
+	if ($('#disconnect').length == 0) {
+		document.body.appendChild(popupDisconnect())
+	} else {
+		$('#disconnect').show()
+	}
 }
 
 /**

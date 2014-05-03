@@ -56,19 +56,44 @@ function joinRoom(io, socket) {
 			rooms[hash].gameStatus = 'begun'
 			startGame(io, hash)
 		} else if (io.sockets.clients(hash).length==2 && rooms[hash].gameStatus=='begun') {
-			if (rooms[hash].white == null) {
-				rooms[hash].white = socket.id
-				socket.broadcast.to(hash).emit('user reconnected', {user: 'white'})
-			} else {
-				rooms[hash].black = socket.id
-				socket.broadcast.to(hash).emit('user reconnected', {user: 'black'})
-			}
+			gameReconnect(io, socket, hash)
 		}
 		socket.on('disconnect', leaveRoom(io, socket, hash))
 	}
 }
 
 exports.joinRoom = joinRoom
+
+function gamegridArray(io, socket) {
+	return function(clientGamegrid, turn, hash) {
+		console.log('CLIENT GAMEGRID', clientGamegrid)
+		rooms[hash].clientArray = clientGamegrid
+		rooms[hash].turn = turn
+	}
+}
+
+exports.gamegridArray = gamegridArray
+
+function gameReconnect(io, socket, hash) {
+	if (rooms[hash].white == null) {
+		rooms[hash].white = socket.id
+		emitReconnect(io, socket, 'black', 'white', hash)
+		emitReconnect(io, socket, 'white', 'white', hash)
+	} else {
+		rooms[hash].black = socket.id
+		emitReconnect(io, socket, 'black', 'black', hash)
+		emitReconnect(io, socket, 'white', 'black', hash)
+	}
+}
+
+function emitReconnect(io, socket, color, reconnected, hash) {
+	console.log('EMIT GAMEGRID', rooms[hash].clientArray)
+	io.sockets.socket(rooms[hash][color]).emit('user reconnected', color, reconnected,
+		rooms[hash].gamegrid.validPlacements('black'), 
+		rooms[hash].gamegrid.validPlacements('white'),
+		rooms[hash].clientArray, rooms[hash].gamegrid.gamegrid,
+		rooms[hash].turn, hash)
+}
 
 /**
  * Send a message for both players to begin the game.
@@ -119,10 +144,10 @@ function leaveRoom(io, socket, hash) {
 		var userLeaving = socket.id
 		if (rooms[hash]!=undefined && (userLeaving==rooms[hash].black && rooms[hash].white!=null)) {
 			rooms[hash].black = null
-			socket.broadcast.to(hash).emit('user left', {user: 'black'})
+			socket.broadcast.to(hash).emit('user left', 'black', hash)
 		} else if (rooms[hash]!=undefined && (userLeaving==rooms[hash].white && rooms[hash].black!=null)) {
 			rooms[hash].white = null
-			socket.broadcast.to(hash).emit('user left', {user: 'white'})
+			socket.broadcast.to(hash).emit('user left', 'white', hash)
 		} else if (rooms[hash]!=undefined) delete rooms[hash]
 	}
 }

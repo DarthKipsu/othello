@@ -20,4 +20,5 @@ io.sockets.on('connection', function(socket) {
 	socket.emit('room', newRoom) //rooms.js
 	socket.on('joinRoom', rooms.joinRoom(io, socket)) //rooms.js
 	socket.on('turn end', rooms.endTurn(io, socket)) //rooms.js
+	socket.on('gamegridArray', rooms.gamegridArray(io, socket)) //rooms.js
 })
