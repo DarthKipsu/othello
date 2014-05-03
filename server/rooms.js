@@ -47,13 +47,15 @@ function joinRoom(io, socket) {
 			rooms[hash] = {
 				black: socket.id,
 				white: null,
-				gamegrid: new moves.Gamegrid()
+				gamegrid: new moves.Gamegrid(),
+				gameStatus: 'launching'
 			}
 		}
-		if (io.sockets.clients(hash).length == 2 && checkIfStartingTurn(hash)) {
+		if (io.sockets.clients(hash).length==2 && rooms[hash].gameStatus=='launching') {
 			rooms[hash].white = socket.id
+			rooms[hash].gameStatus = 'begun'
 			startGame(io, hash)
-		} else if (io.sockets.clients(hash).length == 2 && checkIfStartingTurn(hash)==false) {
+		} else if (io.sockets.clients(hash).length==2 && rooms[hash].gameStatus=='begun') {
 			if (rooms[hash].white == null) {
 				rooms[hash].white = socket.id
 				socket.broadcast.to(hash).emit('user reconnected', {user: 'white'})
@@ -67,13 +69,6 @@ function joinRoom(io, socket) {
 }
 
 exports.joinRoom = joinRoom
-
-function checkIfStartingTurn(hash) {
-	if ((rooms[hash].gamegrid.gamegrid[2][4]==undefined && rooms[hash].gamegrid.gamegrid[3][5]==undefined) &&
-	    (rooms[hash].gamegrid.gamegrid[4][2]==undefined && rooms[hash].gamegrid.gamegrid[5][3]==undefined)) {
-		return true
-	} else return false
-}
 
 /**
  * Send a message for both players to begin the game.
