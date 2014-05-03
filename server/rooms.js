@@ -123,7 +123,7 @@ function leaveRoom(io, socket, hash) {
 		} else if (rooms[hash]!=undefined && (userLeaving==rooms[hash].white && rooms[hash].black!=null)) {
 			rooms[hash].white = null
 			socket.broadcast.to(hash).emit('user left', {user: 'white'})
-		}
+		} else if (rooms[hash]!=undefined) delete rooms[hash]
 	}
 }
 

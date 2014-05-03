@@ -1,4 +1,4 @@
-#game-start {
+#game-start, #disconnect {
 	position: absolute;
 	width: 660px;
 	height: 320px;
@@ -20,12 +20,12 @@ h2 {
 	color: #3B3932;
 }
 
-#game-start p {
+#game-start p, #disconnect p {
 	font-size: 20px;
 	text-align: center;
 }
 
-#opponent-address {
+#opponent-address, #disconnect-address {
 	margin-top: 50px;
 	width: 650px;
 	text-align: center;

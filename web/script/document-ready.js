@@ -101,10 +101,19 @@ $(document).ready(function() {
 
 	socket.on("user left", function(userLeaving) {
 		console.log('user left', userLeaving.user)
+		
+		userLeft(userLeaving) //disconnect.js
+
+		$('.valid').unbind().empty().removeClass()
+		$('.flipPath').remove()
+		$('#disconnect-address').val(window.location.href)
+
 	})
 
 	socket.on("user reconnected", function(userConnecting) {
 		console.log('user reconnected', userConnecting.user)
+
+		$('#disconnect').hide()
 	})
 
 })
