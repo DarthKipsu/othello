@@ -54,6 +54,7 @@ function joinRoom(io, socket) {
 			rooms[hash].white = socket.id
 			startGame(io, hash)
 		}
+		socket.on('disconnect', leaveRoom(io, socket, hash))
 	}
 }
 
@@ -105,7 +106,14 @@ function emitTurnChange(io, socket, player, color, nextTurn, makeMove, hash) {
 
 function leaveRoom(io, socket, hash) {
 	return function() {
-		socket.broadcast.to(hash).emit('user left', {user: 'userLeaving'})
+		var userLeaving = socket.id
+		if (rooms[hash]!=undefined && (userLeaving==rooms[hash].black && rooms[hash].white!=null)) {
+			rooms[hash].black = null
+			socket.broadcast.to(hash).emit('user left', {user: 'black'})
+		} else if (rooms[hash]!=undefined && (userLeaving==rooms[hash].white && rooms[hash].black!=null)) {
+			rooms[hash].white = null
+			socket.broadcast.to(hash).emit('user left', {user: 'white'})
+		}
 	}
 }
 

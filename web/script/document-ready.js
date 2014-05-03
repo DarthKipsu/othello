@@ -99,4 +99,8 @@ $(document).ready(function() {
 
 	})
 
+	socket.on("user left", function(userLeaving) {
+		console.log('user left', userLeaving.user)
+	})
+
 })
