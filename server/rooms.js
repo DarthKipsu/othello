@@ -118,11 +118,11 @@ function endTurn(io, socket) {
 		var validPlacements = rooms[hash].gamegrid.validPlacements(newPlayer)
 
 		if (validPlacements.length!=0) {
-			emitTurnChange(io, socket, player, 'black', newPlayer, makeMove, hash)
-			emitTurnChange(io, socket, player, 'white', newPlayer, makeMove, hash)
+			emitTurnChange(io, socket, player, 'black', newPlayer, makeMove, 'new turn', hash)
+			emitTurnChange(io, socket, player, 'white', newPlayer, makeMove, 'new turn', hash)
 		} else if (rooms[hash].gamegrid.validPlacements(player).length!=0) {
-			emitTurnChange(io, socket, player, 'black', player, makeMove, hash)
-			emitTurnChange(io, socket, player, 'white', player, makeMove, hash)
+			emitTurnChange(io, socket, player, 'black', player, makeMove, 'continue turn', hash)
+			emitTurnChange(io, socket, player, 'white', player, makeMove, 'continue turn', hash)
 		} else {
 			io.sockets.socket(rooms[hash].black).emit('end of game', 'black', 
 				player, makeMove, hash)
@@ -134,8 +134,8 @@ function endTurn(io, socket) {
 
 exports.endTurn = endTurn
 
-function emitTurnChange(io, socket, player, color, nextTurn, makeMove, hash) {
-	io.sockets.socket(rooms[hash][color]).emit('new turn', color, player, makeMove,
+function emitTurnChange(io, socket, player, color, nextTurn, makeMove, emitText, hash) {
+	io.sockets.socket(rooms[hash][color]).emit(emitText, color, player, makeMove,
 		rooms[hash].gamegrid.validPlacements(nextTurn), hash)
 }
 
