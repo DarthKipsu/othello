@@ -372,7 +372,6 @@ function placeChipsAfterDisco(chipColors, savedGamegridArray) {
 				var lastChild = document.querySelectorAll('#' + gamegridArray[i][j][0])
 				var targetCell = $('#gamegrid tr:nth-child(' + (gamegridArray[i][j][1]+1) + ') td:nth-child(' + (gamegridArray[i][j][2]+1) + ')')
 				var movement = getCoordinates(lastChild, targetCell)
-				console.log('movement', movement, lastChild)
 
 				addAnimationToLastChild(lastChild, movementRandomName, ' 0.5s')
 				addClassesToLastChild(lastChild, chipColors[i][j])

@@ -124,6 +124,8 @@ $(document).ready(function() {
 			if (turn==userConnecting) {
 				showTurnFunctions(validPlacements, turn) //move.js
 			}
+			updateAllScores(playerColor) //score.js
+			changeTurn(playerColor) //script.js
 		} else {
 			if (turn==playerColor) {
 				showTurnFunctions(validPlacements, turn) //move.js
