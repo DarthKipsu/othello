@@ -1,6 +1,6 @@
 $(document).ready(function() {
 	createGameboard(); //gamegrid.js
-	var socket = io.connect('http://localhost')
+	var socket = io.connect()
 	
 	socket.on('room', function(data) {
 		if (window.location.hash == "") {

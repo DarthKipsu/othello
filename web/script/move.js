@@ -91,6 +91,11 @@ function pushToGamegridArray(id, targetCell) {
  */
 function getLastChipFromSlot(player) {
 	var unusedChips = document.querySelectorAll('.' + player + '-unused')
+	if (unusedChips.length==0) {
+		var opponent = player=='black'?'white':'black'
+		unusedChips = document.querySelector('.' + opponent + '-unused')
+		return unusedChips
+	}
 	return unusedChips[unusedChips.length - 1]
 }
 
@@ -101,6 +106,10 @@ function getLastChipFromSlot(player) {
  */
 function getFirstChipFromSlot(player) {
 	var unusedChips = document.querySelector('.' + player + '-unused')
+	if (unusedChips==null) {
+		var opponent = player=='black'?'white':'black'
+		unusedChips = document.querySelector('.' + opponent + '-unused')
+	}
 	return unusedChips
 }
 
@@ -397,6 +406,7 @@ function moveDiscoChips(chipColor, chipId, moveCss, topMovement, leftMovement, m
 		} else {
 			addCssForDiscoMovement(moveCss, topMovement, leftMovement,
 				movementRandomName, '', '-')
+			$('#' + chipId + '.white .bottom').css('background', 'linear-gradient(to bottom, #D9D9D9 0%, #FFF 100%) repeat scroll 0% 0% #FFF')
 		}
 	}
 }
