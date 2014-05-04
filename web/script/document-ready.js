@@ -26,7 +26,6 @@ $(document).ready(function() {
 	})
 
 	socket.on("new turn", function(playerColor, previousTurn, newMoves, validPlacements,  hash) {
-		console.log('new turn')
 		turn = previousTurn=='black'?'white':'black'
 
 		if (playerColor==previousTurn) {
@@ -41,8 +40,6 @@ $(document).ready(function() {
 	})
 		
 	socket.on("continue turn", function(playerColor, previousTurn, newMoves, validPlacements,  hash) {
-		console.log('continue turn')
-
 		if (playerColor==previousTurn) {
 			removeTurnFunctions()
 			showTurnFunctions(validPlacements, turn) //move.js
@@ -54,8 +51,6 @@ $(document).ready(function() {
 	})
 		
 	socket.on("end of game", function(playerColor, previousTurn, newMoves, hash) {
-		console.log('end of game')
-
 		removeTurnFunctions()
 		updatePreviousMove(playerColor, newMoves, previousTurn)
 		endGame(playerColor) //game-end.js
@@ -71,8 +66,6 @@ $(document).ready(function() {
 	})
 
 	socket.on("user left", function(userLeaving, hash) {
-		console.log('user left', userLeaving)
-		
 		userLeft(userLeaving) //disconnect.js
 		removeTurnFunctions()
 		$('#disconnect-address').val(window.location.href)
@@ -80,7 +73,6 @@ $(document).ready(function() {
 	})
 
 	socket.on("user reconnected", function(playerColor, userConnecting, validBlack, validWhite, savedGamegridArray, chipColors, savedTurn, hash) {
-		console.log('user reconnected', userConnecting)
 		turn = savedTurn
 
 		$('#disconnect').hide()

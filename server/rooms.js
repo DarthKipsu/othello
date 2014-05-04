@@ -66,7 +66,6 @@ exports.joinRoom = joinRoom
 
 function gamegridArray(io, socket) {
 	return function(clientGamegrid, turn, hash) {
-		console.log('CLIENT GAMEGRID', clientGamegrid)
 		rooms[hash].clientArray = clientGamegrid
 		rooms[hash].turn = turn
 	}
@@ -87,7 +86,6 @@ function gameReconnect(io, socket, hash) {
 }
 
 function emitReconnect(io, socket, color, reconnected, hash) {
-	console.log('EMIT GAMEGRID', rooms[hash].clientArray)
 	io.sockets.socket(rooms[hash][color]).emit('user reconnected', color, reconnected,
 		rooms[hash].gamegrid.validPlacements('black'), 
 		rooms[hash].gamegrid.validPlacements('white'),
