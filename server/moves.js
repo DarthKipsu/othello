@@ -53,7 +53,7 @@ Gamegrid.prototype.addNewChip = function(player, coord) {
 }
 
 /**
- * Find out which coodinates have chips to be added or ortated.
+ * Find out which coodinates have chips to be added or rortated.
  * @function changeChipColor
  * @param {number} affectedCellCount - How many chips will be rotated.
  * @param {string} player - color of the player whose turn it is.
