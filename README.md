@@ -24,7 +24,7 @@ Othello has the following features:
 
 ##### Background
 
-This game was made on a sudden whim on a Valentine's Day eve in 2014. It was completed in a matter of few hours just before midnight. No flowers were harmed in making of this game.
+This game was my first practice with test based development and server side coding. It was a bigger project than I had anticipated, but fun to make and good experience.
 
 ##### Browser compatibility
 
